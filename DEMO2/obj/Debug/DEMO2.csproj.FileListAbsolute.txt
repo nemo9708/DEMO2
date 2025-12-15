@@ -1,0 +1,42 @@
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\bin\Debug\DEMO2.exe.config
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\bin\Debug\DEMO2.exe
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\bin\Debug\DEMO2.pdb
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\DEMO2.csprojAssemblyReference.cache
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\MainWindow.baml
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\Manual\ManualView.baml
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\MainWindow.g.cs
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\Manual\ManualView.g.cs
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\App.g.cs
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\DEMO2_MarkupCompile.cache
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\DEMO2.g.resources
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\DEMO2.Properties.Resources.resources
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\DEMO2.csproj.GenerateResource.cache
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\DEMO2.csproj.CoreCompileInputs.cache
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\DEMO2.exe
+C:\Users\jun_jihan\source\repos\DEMO2\DEMO2\obj\Debug\DEMO2.pdb
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\bin\Debug\DEMO2.exe.config
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\bin\Debug\DEMO2.exe
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\bin\Debug\DEMO2.pdb
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2.csprojAssemblyReference.cache
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\MainWindow.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManialMenuView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManualView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\StationTeachingView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\MainWindow.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManialMenuView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManualView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\StationTeachingView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\App.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2_MarkupCompile.cache
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2.g.resources
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2.Properties.Resources.resources
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2.csproj.GenerateResource.cache
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2.csproj.CoreCompileInputs.cache
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2.exe
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2.pdb
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\OnePointView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\ThreePointView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\OnePointView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\ThreePointView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\ManualPointView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\ManualPointView.g.cs
