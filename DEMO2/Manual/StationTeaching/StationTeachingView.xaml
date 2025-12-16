@@ -78,7 +78,7 @@
             <Button Content="Setting" Style="{StaticResource NormalButtonStyle}" Height="40"/>
             <Button x:Name="btnSlotSet" Content="Slot Set" Style="{StaticResource NormalButtonStyle}" Height="40"
                     Click="BtnSlotSet_Click"/>
-            <Button Content="TEST" Style="{StaticResource NormalButtonStyle}" Height="40" Click="BtnSlotSet_Click"/>
+            <Button Content="TEST" Style="{StaticResource NormalButtonStyle}" Height="40" Click="BtnTest_Click"/>
             <Grid Height="250"/>
             <Button Content="Reset" Style="{StaticResource NormalButtonStyle}" Height="40"/>
             <Button Content="Save" Style="{StaticResource NormalButtonStyle}" Height="40"/>

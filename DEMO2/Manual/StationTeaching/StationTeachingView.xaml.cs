@@ -117,7 +117,7 @@ namespace DEMO2.Manual.StationTeaching
             }
         }
 
-        // 부모 찾기 Helper 메서드 (이미 있다면 중복 추가하지 마세요)
+        // 부모 찾기 Helper 메서드
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             DependencyObject parentObject = VisualTreeHelper.GetParent(child);
