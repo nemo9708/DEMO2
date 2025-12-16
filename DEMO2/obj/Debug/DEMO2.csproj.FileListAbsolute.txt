@@ -40,3 +40,5 @@ C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Station
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\ThreePointView.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\ManualPointView.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\ManualPointView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\SlotSetView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\SlotSetView.g.cs
