@@ -153,6 +153,7 @@
   <ItemGroup>
     <Folder Include="Auto\" />
     <Folder Include="Lock\" />
+    <Folder Include="Manual\Setting\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

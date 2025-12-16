@@ -19,7 +19,7 @@
             <Setter Property="Margin" Value="0,0,0,10"/>
             <Setter Property="Background" Value="{StaticResource SkyBlue}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
-            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
@@ -30,7 +30,7 @@
             <Setter Property="Margin" Value="0,0,4,0"/>
             <Setter Property="Background" Value="#D9D9D9"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
-            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
@@ -47,7 +47,7 @@
             <Setter Property="Margin" Value="0,0,4,0"/>
             <Setter Property="Background" Value="#B7DECD"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
-            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
@@ -57,7 +57,7 @@
             <Setter Property="Width" Value="40"/>
             <Setter Property="Background" Value="#E04B4B"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
-            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
@@ -71,10 +71,32 @@
 
         <Style x:Key="HeaderBorderStyle" TargetType="Border">
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
-            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Padding" Value="8,4"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="Background" Value="{StaticResource OrangeBrush}"/>
+        </Style>
+
+        <Style x:Key="DropdownStyle" TargetType="ComboBox">
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="{StaticResource OrangeBrush}"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="HeaderArmButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Margin" Value="5,0,5,-0.2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
         <Style x:Key="AxisTextBoxStyle" TargetType="TextBox">
@@ -93,7 +115,7 @@
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="Background" Value="{StaticResource SkyBlue}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
-            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
@@ -113,8 +135,8 @@
 
             <!-- Left Navigation -->
             <StackPanel Grid.Column="0" VerticalAlignment="Top">
-                <Button Content="Cassette" Background="{StaticResource GreenBrush}" Style="{StaticResource NavButtonStyle}"/>
-                <Button Content="Stage" Style="{StaticResource NavButtonStyle}"/>
+                <Button x:Name="btnCassette" Content="Cassette" Background="{StaticResource GreenBrush}" Style="{StaticResource NavButtonStyle}" Click="OnCassetteClick"/>
+                <Button x:Name="btnStage" Content="Stage" Style="{StaticResource NavButtonStyle}" Click="OnStageClick"/>
             </StackPanel>
 
             <!-- Main Content -->
@@ -136,26 +158,18 @@
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
                             <TextBlock Text="Group :" Style="{StaticResource HeaderLabelStyle}"/>
-                            <Border Style="{StaticResource HeaderBorderStyle}" Margin="5,0,5,-0.2" Width="80">
-                                <TextBlock Text="1" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
+                            <ComboBox x:Name="cmbGroup" Style="{StaticResource DropdownStyle}" Margin="5,0,5,-0.2"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
                             <TextBlock Text="Cassette No. :" Style="{StaticResource HeaderLabelStyle}"/>
-                            <Border Style="{StaticResource HeaderBorderStyle}" Margin="5,0,5,-0.2" Width="80">
-                                <TextBlock Text="1" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
+                            <ComboBox x:Name="cmbCassette" Style="{StaticResource DropdownStyle}" Margin="5,0,5,-0.2"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                             <TextBlock Text="Arm :" Style="{StaticResource HeaderLabelStyle}"/>
-                            <Border Style="{StaticResource HeaderBorderStyle}" Background="{StaticResource GreenBrush}" Margin="5,0,5,-0.2" Width="80">
-                                <TextBlock Text="A" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <Border Style="{StaticResource HeaderBorderStyle}" Background="{StaticResource SkyBlue}" Margin="5,0,5,-0.2" Width="80">
-                                <TextBlock Text="B" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
+                            <Button x:Name="btnArmA" Content="A" Style="{StaticResource HeaderArmButtonStyle}" Background="{StaticResource GreenBrush}" IsHitTestVisible="False" Margin="5,5,5,3" Height="Auto"/>
+                            <Button x:Name="btnArmB" Content="B" Style="{StaticResource HeaderArmButtonStyle}" Background="{StaticResource GrayTextBox}" IsHitTestVisible="False" Height="Auto" Margin="5,5,5,3" RenderTransformOrigin="0.496,0.72"/>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -167,7 +181,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="3" Padding="20" Margin="0,0,10,0">
+                    <Border Grid.Column="0" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="2" Padding="20" Margin="0,0,10,0">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <TextBlock Text="A軸   :" VerticalAlignment="Center" FontSize="16" Width="70"/>
@@ -188,7 +202,7 @@
                         </StackPanel>
                     </Border>
 
-                    <Border Grid.Column="1" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="3" Padding="20" Margin="10,0,0,0">
+                    <Border Grid.Column="1" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="2" Padding="20" Margin="10,0,0,0">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <TextBlock Text="Z2軸 :" VerticalAlignment="Center" FontSize="16" Width="70"/>
@@ -232,7 +246,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <Border Grid.Column="2" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="3" Background="#D9D9D9" Padding="10">
+                    <Border Grid.Column="2" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="2" Background="#D9D9D9" Padding="10">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -241,7 +255,7 @@
                             <TextBlock Text="Speed" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Border BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="1" Background="{StaticResource SkyBlue}" Padding="30,0" Margin="0,0,5,0">
-                                    <TextBlock Text="000" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBox x:Name="txtSpeed" Text="000" Background="Transparent" BorderThickness="0" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center"/>
                                 </Border>
                                 <TextBlock Text="m/s" FontSize="16" VerticalAlignment="Center"/>
                             </StackPanel>
