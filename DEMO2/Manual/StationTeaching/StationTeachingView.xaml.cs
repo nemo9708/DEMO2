@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using DEMO2.Manual.StationTeaching.Points; // [필수] Points 폴더 참조
+using DEMO2.Manual.StationTeaching.Points;
 
 namespace DEMO2.Manual.StationTeaching
 {
@@ -99,6 +99,36 @@ namespace DEMO2.Manual.StationTeaching
                 borderBottomControl.IsEnabled = true;
                 gridRightInfo.IsEnabled = true;
             }
+        }
+
+        // TEST 버튼 클릭 이벤트 핸들러
+        private void BtnTest_Click(object sender, RoutedEventArgs e)
+        {
+            // 부모 컨트롤인 ManualView를 찾습니다.
+            ManualView parentView = FindParent<ManualView>(this);
+
+            if (parentView != null)
+            {
+                parentView.OpenTestView();
+            }
+            else
+            {
+                MessageBox.Show("ManualView를 찾을 수 없습니다.");
+            }
+        }
+
+        // 부모 찾기 Helper 메서드 (이미 있다면 중복 추가하지 마세요)
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            T parent = parentObject as T;
+            if (parent != null)
+                return parent;
+            else
+                return FindParent<T>(parentObject);
         }
     }
 }

@@ -95,6 +95,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Manual\StationTeaching\TEST\TestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Manual\ManialMenuView.xaml.cs">
@@ -117,6 +121,9 @@
     </Compile>
     <Compile Include="Manual\StationTeaching\StationTeachingView.xaml.cs">
       <DependentUpon>StationTeachingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\StationTeaching\TEST\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

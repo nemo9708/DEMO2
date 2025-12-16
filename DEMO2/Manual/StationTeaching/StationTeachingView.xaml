@@ -78,7 +78,7 @@
             <Button Content="Setting" Style="{StaticResource NormalButtonStyle}" Height="40"/>
             <Button x:Name="btnSlotSet" Content="Slot Set" Style="{StaticResource NormalButtonStyle}" Height="40"
                     Click="BtnSlotSet_Click"/>
-            <Button Content="TEST" Style="{StaticResource NormalButtonStyle}" Height="40"/>
+            <Button Content="TEST" Style="{StaticResource NormalButtonStyle}" Height="40" Click="BtnSlotSet_Click"/>
             <Grid Height="250"/>
             <Button Content="Reset" Style="{StaticResource NormalButtonStyle}" Height="40"/>
             <Button Content="Save" Style="{StaticResource NormalButtonStyle}" Height="40"/>
@@ -99,7 +99,7 @@
                     <TextBlock Text="Cassette No. :" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="20,0,10,0"/>
                     <ComboBox x:Name="cmbCassette" Style="{StaticResource DropdownStyle}"/>
                     <TextBlock Text="Arm :" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="40,0,10,0"/>
-
+                    
                     <StackPanel x:Name="stackArm" Orientation="Horizontal">
                         <RadioButton Content="A" GroupName="ArmGroup" Style="{StaticResource ToggleButtonStyle}" Width="50" Height="30" IsChecked="True"/>
                         <RadioButton Content="B" GroupName="ArmGroup" Style="{StaticResource ToggleButtonStyle}" Width="50" Height="30"/>
