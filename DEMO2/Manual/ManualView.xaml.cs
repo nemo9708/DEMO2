@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using DEMO2.Manual.StationTeaching;
 using DEMO2.Manual.StationTeaching.TEST;
+using DEMO2.Manual.Setting;
 
 namespace DEMO2.Manual
 {
@@ -14,6 +15,7 @@ namespace DEMO2.Manual
 
         private ManualMenuView _menuView;
         private StationTeachingView _stationView;
+        private SettingView _settingView;
         private TestView _testView;
 
         public ManualView()
@@ -22,9 +24,11 @@ namespace DEMO2.Manual
 
             _menuView = new ManualMenuView();
             _menuView.StationTeachingClicked += OnStationTeachingClicked;
+            _menuView.SettingClicked += OnSettingClicked;
 
             // 초기화
             _stationView = new StationTeachingView();
+            _settingView = new SettingView();
             _testView = new TestView();
 
             SwitchTab("Manual");
@@ -35,6 +39,17 @@ namespace DEMO2.Manual
         {
             tabStation.Visibility = Visibility.Visible;
             SwitchTab("Station");
+        }
+
+        private void OnSettingClicked(object sender, System.EventArgs e)
+        {
+            OpenSettingView();
+        }
+
+        private void TabSettingClicked(object sender, System.EventArgs e)
+        {
+            tabSetting.Visibility = Visibility.Visible;
+            SwitchTab("Setting");
         }
 
         // 탭 헤더 클릭
@@ -48,6 +63,11 @@ namespace DEMO2.Manual
             SwitchTab("Station");
         }
 
+        private void TabSetting_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchTab("Setting");
+        }
+
         // X 버튼 클릭 (탭 닫기)
         private void BtnCloseTab_Click(object sender, RoutedEventArgs e)
         {
@@ -58,6 +78,13 @@ namespace DEMO2.Manual
             tabStation.Visibility = Visibility.Collapsed;
 
             // 2. Manual 화면으로 복귀
+            SwitchTab("Manual");
+        }
+
+        private void BtnCloseSettingTab_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            tabSetting.Visibility = Visibility.Collapsed;
             SwitchTab("Manual");
         }
 
@@ -74,11 +101,17 @@ namespace DEMO2.Manual
             SwitchTab("Manual");
         }
 
-        // 외부(StationTeachingView)에서 호출할 메서드
+        // 외부에서 호출할 메서드
         public void OpenTestView()
         {
             tabTest.Visibility = Visibility.Visible;
             SwitchTab("Test");
+        }
+
+        public void OpenSettingView()
+        {
+            tabSetting.Visibility = Visibility.Visible;
+            SwitchTab("Setting");
         }
 
         private void SwitchTab(string tabName)
@@ -91,6 +124,10 @@ namespace DEMO2.Manual
             tabStation.Background = InactiveColor;
             tabStation.FontWeight = FontWeights.Normal;
             tabStation.BorderBrush = Brushes.Gray;
+
+            tabSetting.Background = InactiveColor;
+            tabSetting.FontWeight = FontWeights.Normal;
+            tabSetting.BorderBrush = Brushes.Gray;
 
             // Test 탭 초기화
             tabTest.Background = InactiveColor;
@@ -110,6 +147,13 @@ namespace DEMO2.Manual
                 tabStation.Background = ActiveColor;
                 tabStation.FontWeight = FontWeights.Bold;
                 tabStation.BorderBrush = Brushes.Black;
+            }
+            else if (tabName == "Setting")
+            {
+                ManualContentArea.Content = _settingView;
+                tabSetting.Background = ActiveColor;
+                tabSetting.FontWeight = FontWeights.Bold;
+                tabSetting.BorderBrush = Brushes.Black;
             }
 
             // Test 탭 선택 시 로직

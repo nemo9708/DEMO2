@@ -41,7 +41,7 @@
 
         <StackPanel Grid.Column="0">
             <Button x:Name="btnStationTeaching" Content="Station Teaching" Click="BtnStationTeaching_Click" Style="{StaticResource MenuButtonStyle}" Height="50"/>
-            <Button Content="Setting" Style="{StaticResource MenuButtonStyle}" Height="50"/>
+            <Button x:Name="btnSetting" Content="Setting" Click="BtnSetting_Click" Style="{StaticResource MenuButtonStyle}" Height="50"/>
             <Button Content="I/O" Style="{StaticResource MenuButtonStyle}" Height="50"/>
             <Button Content="Mapper" Style="{StaticResource MenuButtonStyle}" Height="50"/>
             <Rectangle Height="100" Visibility="Hidden"/>

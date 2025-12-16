@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using DEMO2.Manual.StationTeaching.Points;
+using DEMO2.Manual.Setting;
 
 namespace DEMO2.Manual.StationTeaching
 {
@@ -110,6 +111,20 @@ namespace DEMO2.Manual.StationTeaching
             if (parentView != null)
             {
                 parentView.OpenTestView();
+            }
+            else
+            {
+                MessageBox.Show("ManualView를 찾을 수 없습니다.");
+            }
+        }
+
+        private void BtnSetting_Click(object sender, RoutedEventArgs e)
+        {
+            ManualView parentView = FindParent<ManualView>(this);
+
+            if (parentView != null)
+            {
+                parentView.OpenSettingView();
             }
             else
             {

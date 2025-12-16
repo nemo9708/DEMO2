@@ -67,11 +67,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Manual\ManialMenuView.xaml">
+    <Page Include="Manual\ManualMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Manual\ManualView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\Setting\SettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -101,11 +105,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Manual\ManialMenuView.xaml.cs">
-      <DependentUpon>ManialMenuView.xaml</DependentUpon>
+    <Compile Include="Manual\ManualMenuView.xaml.cs">
+      <DependentUpon>ManualMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manual\ManualView.xaml.cs">
       <DependentUpon>ManualView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\SettingView.xaml.cs">
+      <DependentUpon>SettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manual\StationTeaching\Points\ManualPointView.xaml.cs">
       <DependentUpon>ManualPointView.xaml</DependentUpon>
@@ -153,7 +160,6 @@
   <ItemGroup>
     <Folder Include="Auto\" />
     <Folder Include="Lock\" />
-    <Folder Include="Manual\Setting\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

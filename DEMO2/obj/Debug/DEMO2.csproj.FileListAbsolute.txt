@@ -19,11 +19,9 @@ C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\bin\Debug\DEMO2.exe
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\bin\Debug\DEMO2.pdb
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2.csprojAssemblyReference.cache
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\MainWindow.baml
-C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManialMenuView.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManualView.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\StationTeachingView.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\MainWindow.g.cs
-C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManialMenuView.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManualView.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\StationTeachingView.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\App.g.cs
@@ -44,3 +42,7 @@ C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Station
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\Points\SlotSetView.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\TEST\TestView.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\TEST\TestView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManualMenuView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\ManualMenuView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\SettingView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\SettingView.g.cs
