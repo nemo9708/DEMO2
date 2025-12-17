@@ -79,6 +79,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Manual\Setting\RetrySet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Manual\Setting\SettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +125,9 @@
     </Compile>
     <Compile Include="Manual\Setting\OriginOffset.xaml.cs">
       <DependentUpon>OriginOffset.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\RetrySet.xaml.cs">
+      <DependentUpon>RetrySet.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manual\Setting\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
