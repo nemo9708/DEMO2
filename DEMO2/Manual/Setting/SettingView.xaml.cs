@@ -30,7 +30,7 @@ namespace DEMO2.Manual.Setting
             _originOffsetView = new OriginOffsetView();
             _systemPointView = new SystemPointView();
             _retryView = new RetrySetView();
-            _vacuumView = CreatePlaceholderView("Vacuum Set.");
+            _vacuumView = new VacuumSetView();
             _softLimitView = CreatePlaceholderView("Soft Limits");
             _othersView = CreatePlaceholderView("Others");
 

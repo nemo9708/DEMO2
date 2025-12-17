@@ -91,6 +91,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Manual\Setting\VacuumSetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Manual\StationTeaching\Points\ManualPointView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +138,9 @@
     </Compile>
     <Compile Include="Manual\Setting\SystemPoint.xaml.cs">
       <DependentUpon>SystemPoint.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\VacuumSetView.xaml.cs">
+      <DependentUpon>VacuumSetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manual\StationTeaching\Points\ManualPointView.xaml.cs">
       <DependentUpon>ManualPointView.xaml</DependentUpon>
