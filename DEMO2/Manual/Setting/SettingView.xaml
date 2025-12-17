@@ -7,6 +7,9 @@
              d:DesignHeight="500" d:DesignWidth="900"
              Background="White">
     <UserControl.Resources>
+        <SolidColorBrush x:Key="NavInactive" Color="#ADD8E6" />
+        <SolidColorBrush x:Key="NavActive" Color="#66CC66" />
+
         <Style x:Key="NavButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="130" />
             <Setter Property="Height" Value="45" />
@@ -17,40 +20,7 @@
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Background" Value="#ADD8E6" />
-        </Style>
-
-        <Style x:Key="LabelStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-
-        <Style x:Key="ValueBoxStyle" TargetType="TextBox">
-            <Setter Property="Width" Value="110" />
-            <Setter Property="Height" Value="30" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Padding" Value="4,2" />
-            <Setter Property="IsReadOnly" Value="True" />
-            <Setter Property="Background" Value="#D3D3D3" />
-        </Style>
-
-        <Style x:Key="ActionButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="120" />
-            <Setter Property="Height" Value="45" />
-            <Setter Property="Margin" Value="6" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Background" Value="#B4E1F4" />
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="2" />
-        </Style>
-
-        <Style x:Key="ResultBoxStyle" TargetType="TextBox" BasedOn="{StaticResource ValueBoxStyle}">
-            <Setter Property="Width" Value="100" />
+            <Setter Property="Background" Value="{StaticResource NavInactive}" />
         </Style>
     </UserControl.Resources>
 
@@ -58,102 +28,22 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
         <!-- Left navigation -->
         <StackPanel Grid.Column="0" VerticalAlignment="Top">
-            <Button Content="Origin Offset" Style="{StaticResource NavButtonStyle}" Background="#66CC66" />
-            <Button Content="System Point" Style="{StaticResource NavButtonStyle}" />
-            <Button Content="Retry Set." Style="{StaticResource NavButtonStyle}" />
-            <Button Content="Vacuum Set." Style="{StaticResource NavButtonStyle}" />
-            <Button Content="Soft Limits" Style="{StaticResource NavButtonStyle}" />
+            <Button x:Name="btnOriginOffset" Content="Origin Offset" Style="{StaticResource NavButtonStyle}" Click="OnOriginOffsetClicked" />
+            <Button x:Name="btnSystemPoint" Content="System Point" Style="{StaticResource NavButtonStyle}" Click="OnSystemPointClicked" />
+            <Button x:Name="btnRetrySet" Content="Retry Set." Style="{StaticResource NavButtonStyle}" Click="OnRetrySetClicked" />
+            <Button x:Name="btnVacuumSet" Content="Vacuum Set." Style="{StaticResource NavButtonStyle}" Click="OnVacuumSetClicked" />
+            <Button x:Name="btnSoftLimits" Content="Soft Limits" Style="{StaticResource NavButtonStyle}" Click="OnSoftLimitsClicked" />
             <Rectangle Height="30" Visibility="Hidden" />
-            <Button Content="Others" Style="{StaticResource NavButtonStyle}" />
+            <Button x:Name="btnOthers" Content="Others" Style="{StaticResource NavButtonStyle}" Click="OnOthersClicked" />
         </StackPanel>
 
-        <!-- Center content -->
-        <Grid Grid.Column="1" Margin="15,0" VerticalAlignment="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="160" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="160" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="X Offset(mm)" Style="{StaticResource LabelStyle}" />
-                <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                <TextBox Grid.Column="2" Style="{StaticResource ValueBoxStyle}" Background="#DA8EC1" Text="50.00" />
-            </Grid>
-
-            <Grid Grid.Row="1" Margin="0,0,0,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="160" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="160" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="X Base(mm)" Style="{StaticResource LabelStyle}" />
-                <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                <TextBox Grid.Column="2" Style="{StaticResource ValueBoxStyle}" Text="000.00" />
-            </Grid>
-
-            <Border Grid.Row="2" BorderBrush="Black" BorderThickness="2" Padding="10" Margin="0,0,0,20">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                        <TextBlock Text="Calculated Reference Angle (θ_new) :" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" />
-                        <TextBox Style="{StaticResource ValueBoxStyle}" Width="80" Text="29.00" Margin="8,0,0,0" />
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Calculated Origin Position : " Style="{StaticResource LabelStyle}" Margin="0,0,0,6" />
-                        <TextBox Style="{StaticResource ValueBoxStyle}" Width="100" Text="50.00" Margin="100,-30,166,0" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-
-            <Grid Grid.Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <Button Grid.Row="0" Grid.Column="0" Content="Calculate" Style="{StaticResource ActionButtonStyle}" />
-                <Button Grid.Row="0" Grid.Column="1" Content="Apply" Style="{StaticResource ActionButtonStyle}" />
-                <Button Grid.Row="1" Grid.Column="0" Content="Slow Test" Style="{StaticResource ActionButtonStyle}" />
-                <Button Grid.Row="1" Grid.Column="1" Content="Reset" Style="{StaticResource ActionButtonStyle}" />
-            </Grid>
-        </Grid>
-
-        <!-- Right results -->
-        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="2" Padding="10" VerticalAlignment="Top">
-            <StackPanel>
-                <TextBlock Text="ΔX" Style="{StaticResource LabelStyle}" />
-                <TextBox Style="{StaticResource ResultBoxStyle}" Text="50.00" Margin="-70,4,0,8" />
-
-                <TextBlock Text="Δθ1" Style="{StaticResource LabelStyle}" />
-                <TextBox Style="{StaticResource ResultBoxStyle}" Text="-74.40" Margin="-70,4,0,8" />
-
-                <TextBlock Text="Δθ2" Style="{StaticResource LabelStyle}" />
-                <TextBox Style="{StaticResource ResultBoxStyle}" Text="151.00" Margin="-70,4,0,8" />
-
-                <TextBlock Text="θ new" Style="{StaticResource LabelStyle}" />
-                <TextBox Style="{StaticResource ResultBoxStyle}" Text="29.00" Margin="-70,4,0,12" />
-
-                <TextBlock Text="Arm" Style="{StaticResource LabelStyle}" Margin="0,0,0,6" />
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="A" Width="60" Height="35" FontSize="16" FontWeight="Bold" Background="#33CC66" BorderBrush="Black" BorderThickness="2" />
-                    <Button Content="B" Width="60" Height="35" FontSize="16" FontWeight="SemiBold" Background="#B4E1F4" BorderBrush="Black" BorderThickness="2" Margin="6,0,0,0" />
-                </StackPanel>
-            </StackPanel>
+        <!-- Content area -->
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Margin="15,0,0,0">
+            <ContentControl x:Name="ContentArea" />
         </Border>
     </Grid>
 </UserControl>

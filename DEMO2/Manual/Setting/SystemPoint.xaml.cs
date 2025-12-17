@@ -2,9 +2,9 @@
 
 namespace DEMO2.Manual.Setting
 {
-    public partial class SystemPoint : UserControl
+    public partial class SystemPointView : UserControl
     {
-        public SystemPoint()
+        public SystemPointView()
         {
             InitializeComponent();
         }

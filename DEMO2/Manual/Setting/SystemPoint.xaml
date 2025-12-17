@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DEMO2.Manual.Setting.SystemPoint"
+﻿<UserControl x:Class="DEMO2.Manual.Setting.SystemPointView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,19 +7,6 @@
              d:DesignHeight="500" d:DesignWidth="900"
              Background="White">
     <UserControl.Resources>
-        <Style x:Key="NavButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="130" />
-            <Setter Property="Height" Value="45" />
-            <Setter Property="Margin" Value="0,6,0,0" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Background" Value="#ADD8E6" />
-        </Style>
-
         <Style x:Key="LabelStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -63,167 +50,148 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="10">
+    <Grid Margin="15,0,0,0" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <!-- Left navigation (same layout as SettingView) -->
-        <StackPanel Grid.Column="0" VerticalAlignment="Top">
-            <Button Content="Origin Offset" Style="{StaticResource NavButtonStyle}" />
-            <Button Content="System Point" Style="{StaticResource NavButtonStyle}" Background="#66CC66" />
-            <Button Content="Retry Set." Style="{StaticResource NavButtonStyle}" />
-            <Button Content="Vacuum Set." Style="{StaticResource NavButtonStyle}" />
-            <Button Content="Soft Limits" Style="{StaticResource NavButtonStyle}" />
-            <Rectangle Height="30" Visibility="Hidden" />
-            <Button Content="Others" Style="{StaticResource NavButtonStyle}" />
-        </StackPanel>
+        <!-- Home Position -->
+        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="2" Padding="12" Margin="0,0,20,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="HomePos" Style="{StaticResource HeaderStyle}" />
 
-        <!-- Content area -->
-        <Grid Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Top">
+                <Grid Grid.Row="1" Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="θ" Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                    <TextBox Grid.Column="2" Style="{StaticResource HomeValueBoxStyle}" Text="000" />
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Z" Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                    <TextBox Grid.Column="2" Style="{StaticResource HomeValueBoxStyle}" Text="000" />
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Z2" Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                    <TextBox Grid.Column="2" Style="{StaticResource HomeValueBoxStyle}" Text="000" />
+                </Grid>
+
+                <Grid Grid.Row="4" Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Y" Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                    <TextBox Grid.Column="2" Style="{StaticResource HomeValueBoxStyle}" Text="000" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Safety Point -->
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2" Padding="12" Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Safety Point" Style="{StaticResource HeaderStyle}" />
+
+                <Grid Grid.Row="1" Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="θ" Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                    <TextBox Grid.Column="2" Style="{StaticResource SafetyValueBoxStyle}" Text="0000000.000" />
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Z" Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                    <TextBox Grid.Column="2" Style="{StaticResource SafetyValueBoxStyle}" Text="0000000.000" />
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Z2" Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                    <TextBox Grid.Column="2" Style="{StaticResource SafetyValueBoxStyle}" Text="0000000.000" />
+                </Grid>
+
+                <Grid Grid.Row="4" Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Y" Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                    <TextBox Grid.Column="2" Style="{StaticResource SafetyValueBoxStyle}" Text="0000000.000" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Action buttons -->
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,6,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
 
-            <!-- Home Position -->
-            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="2" Padding="12" Margin="0,0,20,10">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="HomePos" Style="{StaticResource HeaderStyle}" />
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Slow Test" Style="{StaticResource ActionButtonStyle}" />
+                <Button Content="Save" Style="{StaticResource ActionButtonStyle}" />
+            </StackPanel>
 
-                    <Grid Grid.Row="1" Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="θ" Style="{StaticResource LabelStyle}" />
-                        <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                        <TextBox Grid.Column="2" Style="{StaticResource HomeValueBoxStyle}" Text="000" />
-                    </Grid>
-
-                    <Grid Grid.Row="2" Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Z" Style="{StaticResource LabelStyle}" />
-                        <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                        <TextBox Grid.Column="2" Style="{StaticResource HomeValueBoxStyle}" Text="000" />
-                    </Grid>
-
-                    <Grid Grid.Row="3" Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Z2" Style="{StaticResource LabelStyle}" />
-                        <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                        <TextBox Grid.Column="2" Style="{StaticResource HomeValueBoxStyle}" Text="000" />
-                    </Grid>
-
-                    <Grid Grid.Row="4" Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Y" Style="{StaticResource LabelStyle}" />
-                        <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                        <TextBox Grid.Column="2" Style="{StaticResource HomeValueBoxStyle}" Text="000" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- Safety Point -->
-            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2" Padding="12" Margin="0,0,0,10">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Safety Point" Style="{StaticResource HeaderStyle}" />
-
-                    <Grid Grid.Row="1" Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="θ" Style="{StaticResource LabelStyle}" />
-                        <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                        <TextBox Grid.Column="2" Style="{StaticResource SafetyValueBoxStyle}" Text="0000000.000" />
-                    </Grid>
-
-                    <Grid Grid.Row="2" Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Z" Style="{StaticResource LabelStyle}" />
-                        <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                        <TextBox Grid.Column="2" Style="{StaticResource SafetyValueBoxStyle}" Text="0000000.000" />
-                    </Grid>
-
-                    <Grid Grid.Row="3" Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Z2" Style="{StaticResource LabelStyle}" />
-                        <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                        <TextBox Grid.Column="2" Style="{StaticResource SafetyValueBoxStyle}" Text="0000000.000" />
-                    </Grid>
-
-                    <Grid Grid.Row="4" Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Y" Style="{StaticResource LabelStyle}" />
-                        <TextBlock Grid.Column="1" Text=":" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                        <TextBox Grid.Column="2" Style="{StaticResource SafetyValueBoxStyle}" Text="0000000.000" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- Action buttons -->
-            <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,6,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Slow Test" Style="{StaticResource ActionButtonStyle}" />
-                    <Button Content="Save" Style="{StaticResource ActionButtonStyle}" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Slow Test" Style="{StaticResource ActionButtonStyle}" />
-                    <Button Content="Save" Style="{StaticResource ActionButtonStyle}" />
-                </StackPanel>
-            </Grid>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Slow Test" Style="{StaticResource ActionButtonStyle}" />
+                <Button Content="Save" Style="{StaticResource ActionButtonStyle}" />
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

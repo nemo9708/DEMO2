@@ -13,6 +13,10 @@ namespace DEMO2
             btnManual.Click += BtnManual_Click;
             btnAuto.Click += BtnAuto_Click;
             btnLock.Click += BtnLock_Click;
+            btnCloseApp.Click += BtnCloseApp_Click;
+
+            // 기본 화면은 Manual로 설정
+            MainContentArea.Content = new ManualView();
         }
 
         private void BtnManual_Click(object sender, RoutedEventArgs e)
@@ -31,6 +35,11 @@ namespace DEMO2
         {
             // 아직 구현 안 됨 (빈 화면)
             MainContentArea.Content = null;
+        }
+
+        private void BtnCloseApp_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
