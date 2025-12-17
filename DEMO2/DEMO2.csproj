@@ -75,7 +75,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Manual\Setting\OriginOffset.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Manual\Setting\SettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\Setting\SystemPoint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,8 +119,14 @@
     <Compile Include="Manual\ManualView.xaml.cs">
       <DependentUpon>ManualView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Manual\Setting\OriginOffset.xaml.cs">
+      <DependentUpon>OriginOffset.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Manual\Setting\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\SystemPoint.xaml.cs">
+      <DependentUpon>SystemPoint.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manual\StationTeaching\Points\ManualPointView.xaml.cs">
       <DependentUpon>ManualPointView.xaml</DependentUpon>
