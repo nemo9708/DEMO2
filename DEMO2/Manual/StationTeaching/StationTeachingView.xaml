@@ -150,30 +150,37 @@
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Background="{StaticResource GrayBrush}" BorderBrush="Black" BorderThickness="2" Margin="0,0,0,5">
-                <StackPanel Margin="10">
-                    <TextBlock Text="Position :" FontWeight="Bold" Margin="0,0,0,5"/>
-                    <TextBlock Text="Axis" Margin="0,0,0,5"/>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="A  :" VerticalAlignment="Center"/>
-                        <TextBox Text="123456.123" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="θ  :" VerticalAlignment="Center"/>
-                        <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="Z  :" VerticalAlignment="Center"/>
-                        <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="Y  :" VerticalAlignment="Center"/>
-                        <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="Φ  :" VerticalAlignment="Center"/>
-                        <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                </StackPanel>
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Axis Save" Style="{StaticResource NormalButtonStyle}" Width="100" Height="40" Margin="0,510,91.2,-45.4" Grid.ColumnSpan="2"/>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Position :" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBlock Text="Axis" Margin="0,0,0,5"/>
+                        <Grid Margin="0,5">
+                            <TextBlock Text="A  :" VerticalAlignment="Center"/>
+                            <TextBox Text="123456.123" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <TextBlock Text="θ  :" VerticalAlignment="Center"/>
+                            <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <TextBlock Text="Z  :" VerticalAlignment="Center"/>
+                            <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <TextBlock Text="Y  :" VerticalAlignment="Center"/>
+                            <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <TextBlock Text="Φ  :" VerticalAlignment="Center"/>
+                            <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
             </Border>
             <Border Grid.Row="1" Background="{StaticResource GrayBrush}" BorderBrush="Black" BorderThickness="2">
                 <StackPanel VerticalAlignment="Center" Margin="10">
