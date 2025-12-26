@@ -50,3 +50,7 @@ C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\SystemPoint.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\OriginOffset.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\OriginOffset.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\RetrySet.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\VacuumSetView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\RetrySet.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\VacuumSetView.g.cs
