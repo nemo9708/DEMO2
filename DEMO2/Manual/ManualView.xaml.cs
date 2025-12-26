@@ -17,6 +17,7 @@ namespace DEMO2.Manual
         private StationTeachingView _stationView;
         private SettingView _settingView;
         private TestView _testView;
+        private Test2View _test2View;         //물리 키 맵핑 테스트용
 
         public ManualView()
         {
@@ -30,6 +31,7 @@ namespace DEMO2.Manual
             _stationView = new StationTeachingView();
             _settingView = new SettingView();
             _testView = new TestView();
+            _test2View = new Test2View(); // 물리 키 맵핑 테스트용
 
             SwitchTab("Manual");
         }
@@ -93,6 +95,12 @@ namespace DEMO2.Manual
             SwitchTab("Test");
         }
 
+        // 물리 키 맵핑 테스트용
+        private void TabTest2_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchTab("Test2");
+        }
+
         // TEST 탭 닫기 버튼 클릭
         private void BtnCloseTestTab_Click(object sender, RoutedEventArgs e)
         {
@@ -101,11 +109,26 @@ namespace DEMO2.Manual
             SwitchTab("Manual");
         }
 
+        // 물리 키 맵핑 테스트용
+        private void BtnCloseTest2Tab_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            tabTest2.Visibility = Visibility.Collapsed;
+            SwitchTab("Manual");
+        }
+
         // 외부에서 호출할 메서드
         public void OpenTestView()
         {
             tabTest.Visibility = Visibility.Visible;
             SwitchTab("Test");
+        }
+
+        // 물리 키 맵핑 테스트용
+        public void OpenTest2View()
+        {
+            tabTest2.Visibility = Visibility.Visible;
+            SwitchTab("Test2");
         }
 
         public void OpenSettingView()
@@ -133,6 +156,11 @@ namespace DEMO2.Manual
             tabTest.Background = InactiveColor;
             tabTest.FontWeight = FontWeights.Normal;
             tabTest.BorderBrush = Brushes.Gray;
+
+            //물리키 맵핑 테스트용
+            tabTest2.Background = InactiveColor;
+            tabTest2.FontWeight = FontWeights.Normal;
+            tabTest2.BorderBrush = Brushes.Gray;
 
             if (tabName == "Manual")
             {
@@ -163,6 +191,15 @@ namespace DEMO2.Manual
                 tabTest.Background = ActiveColor;
                 tabTest.FontWeight = FontWeights.Bold;
                 tabTest.BorderBrush = Brushes.Black;
+            }
+
+            //물리 키 맵핑 테스트용
+            else if (tabName == "Test2")
+            {
+                ManualContentArea.Content = _test2View;
+                tabTest2.Background = ActiveColor;
+                tabTest2.FontWeight = FontWeights.Bold;
+                tabTest2.BorderBrush = Brushes.Black;
             }
         }
     }

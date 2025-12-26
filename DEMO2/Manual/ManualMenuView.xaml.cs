@@ -9,6 +9,7 @@ namespace DEMO2.Manual
         // 1. 이벤트 정의: EventHandler 뒤의 버튼이 눌렸음을 알림
         public event EventHandler StationTeachingClicked;
         public event EventHandler SettingClicked;
+        public event EventHandler Test2Clicked;
 
         public ManualMenuView()
         {
@@ -25,6 +26,11 @@ namespace DEMO2.Manual
         private void BtnSetting_Click(object sender, RoutedEventArgs e)
         {
             SettingClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void BtnTest2_Click(object sender, RoutedEventArgs e)
+        {
+            Test2Clicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -134,6 +134,44 @@
                 </Button.Template>
             </Button>
 
+            <Button x:Name="tabTest2"
+                    Width="120" Margin="0,0,0,0"
+                    BorderThickness="1,1,1,0" BorderBrush="Gray"
+                    Visibility="Collapsed"
+                    Click="TabTest2_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="30"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="TEST2" Grid.Column="0"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               FontWeight="SemiBold"/>
+
+                                    <Button x:Name="btnCloseTest2Tab" Grid.Column="1"
+                                            Content="x"
+                                            Width="20" Height="20"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Foreground="Red"
+                                            FontWeight="Bold"
+                                            FontSize="15"
+                                            Margin="0,0,0,2"
+                                            Click="BtnCloseTest2Tab_Click"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
         </StackPanel>
 
         <Grid Grid.Row="1">
