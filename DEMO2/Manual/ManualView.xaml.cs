@@ -26,6 +26,7 @@ namespace DEMO2.Manual
             _menuView = new ManualMenuView();
             _menuView.StationTeachingClicked += OnStationTeachingClicked;
             _menuView.SettingClicked += OnSettingClicked;
+            _menuView.Test2Clicked += OnTest2Clicked;
 
             // 초기화
             _stationView = new StationTeachingView();
@@ -46,6 +47,11 @@ namespace DEMO2.Manual
         private void OnSettingClicked(object sender, System.EventArgs e)
         {
             OpenSettingView();
+        }
+
+        private void OnTest2Clicked(object sender, System.EventArgs e)
+        {
+            OpenTest2View();
         }
 
         private void TabSettingClicked(object sender, System.EventArgs e)
