@@ -38,3 +38,5 @@ C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Release\Manual\Setti
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Release\Manual\Setting\RetrySet.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Release\Manual\Setting\VacuumSetView.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Release\Manual\Setting\VacuumSetView.g.cs
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Release\Manual\TEST2.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Release\Manual\TEST2.g.cs

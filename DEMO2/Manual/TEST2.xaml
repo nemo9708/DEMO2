@@ -20,34 +20,34 @@
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="0" Grid.Column="0" Content="X1" Height="32" Margin="0,0,10,8"/>
+        <Button x:Name="BtnX1" Grid.Row="0" Grid.Column="0" Content="X1" Height="32" Margin="0,0,10,8"/>
         <Border Grid.Row="0" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Height="32" Margin="0,0,0,8">
-            <TextBlock Text="000000" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="TxtX1" Text="0.00" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
 
-        <Button Grid.Row="1" Grid.Column="0" Content="Y2" Height="32" Margin="0,0,10,8"/>
+        <Button x:Name="BtnY2" Grid.Row="1" Grid.Column="0" Content="Y2" Height="32" Margin="0,0,10,8"/>
         <Border Grid.Row="1" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Height="32" Margin="0,0,0,8">
-            <TextBlock Text="000000" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="TxtY2" Text="0.00" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
 
-        <Button Grid.Row="2" Grid.Column="0" Content="Z3" Height="32" Margin="0,0,10,8"/>
+        <Button x:Name="BtnZ3" Grid.Row="2" Grid.Column="0" Content="Z3" Height="32" Margin="0,0,10,8"/>
         <Border Grid.Row="2" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Height="32" Margin="0,0,0,8">
-            <TextBlock Text="000000" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="TxtZ3" Text="0.00" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
 
-        <Button Grid.Row="3" Grid.Column="0" Content="A4" Height="32" Margin="0,0,10,8"/>
+        <Button x:Name="BtnA4" Grid.Row="3" Grid.Column="0" Content="A4" Height="32" Margin="0,0,10,8"/>
         <Border Grid.Row="3" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Height="32" Margin="0,0,0,8">
-            <TextBlock Text="000000" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="TxtA4" Text="0.00" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
 
-        <Button Grid.Row="4" Grid.Column="0" Content="B5" Height="32" Margin="0,0,10,8"/>
+        <Button x:Name="BtnB5" Grid.Row="4" Grid.Column="0" Content="B5" Height="32" Margin="0,0,10,8"/>
         <Border Grid.Row="4" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Height="32" Margin="0,0,0,8">
-            <TextBlock Text="000000" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="TxtB5" Text="0.00" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
 
-        <Button Grid.Row="5" Grid.Column="0" Content="C6" Height="32" Margin="0,0,10,0"/>
+        <Button x:Name="BtnC6" Grid.Row="5" Grid.Column="0" Content="C6" Height="32" Margin="0,0,10,0"/>
         <Border Grid.Row="5" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Height="32">
-            <TextBlock Text="000000" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="TxtC6" Text="0.00" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
     </Grid>
 </UserControl>
