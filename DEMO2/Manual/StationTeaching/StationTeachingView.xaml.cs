@@ -3,10 +3,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Input;      // 키 입력 처리를 위해 필수
-using System.Windows.Threading;  // 타이머 처리를 위해 필수
+using System.Windows.Input;
+using System.Windows.Threading;
 using DEMO2.Manual.StationTeaching.Points;
 using DEMO2.Manual.Setting;
+using DEMO2.Drivers; // [중요] 드라이버 네임스페이스 추가
 
 namespace DEMO2.Manual.StationTeaching
 {
@@ -23,19 +24,20 @@ namespace DEMO2.Manual.StationTeaching
         private readonly Brush _defaultButtonColor = new SolidColorBrush(Color.FromRgb(173, 216, 230));
         private readonly Brush _activeButtonColor = new SolidColorBrush(Color.FromRgb(50, 205, 50));
 
-        // --- [조그 기능] 변수 선언 ---
-        private Window _parentWindow;
+        // 조그 기능 변수
         private DispatcherTimer _jogTimer;
-
         private string _currentAxis = "";
-        private int _currentDirection = 0; // +1 or -1
+        private int _currentDirection = 0;
 
-        // 좌표값 저장 변수
+        // 좌표값
         private double _valA = 0;
         private double _valTheta = 0;
         private double _valZ = 0;
         private double _valY = 0;
         private double _valPhi = 0;
+
+        // 드라이버 참조 저장용
+        private DTP7HDriver _driverRef;
 
         public StationTeachingView()
         {
@@ -52,142 +54,94 @@ namespace DEMO2.Manual.StationTeaching
             _currentActiveView = _onePointView;
             PointsContentArea.Content = _currentActiveView;
 
-            // --- [조그 기능] 타이머 설정 ---
+            // 조그 타이머 설정
             _jogTimer = new DispatcherTimer();
-            _jogTimer.Interval = TimeSpan.FromMilliseconds(50); // 0.05초 간격
+            _jogTimer.Interval = TimeSpan.FromMilliseconds(50);
             _jogTimer.Tick += JogTimer_Tick;
 
-            // --- [조그 기능] 로드/언로드 이벤트 ---
             this.Loaded += StationTeachingView_Loaded;
             this.Unloaded += StationTeachingView_Unloaded;
         }
 
-        // --- [조그 기능] 타이머 틱 (값 업데이트) ---
         private void JogTimer_Tick(object sender, EventArgs e)
         {
-            double step = 1.0; // 속도 조절
-
+            double step = 1.0;
             switch (_currentAxis)
             {
-                case "A":
-                    _valA += step * _currentDirection;
-                    TxtAxisA.Text = _valA.ToString("F3");
-                    break;
-                case "Theta":
-                    _valTheta += step * _currentDirection;
-                    TxtAxisTheta.Text = _valTheta.ToString("F3");
-                    break;
-                case "Z":
-                    _valZ += step * _currentDirection;
-                    TxtAxisZ.Text = _valZ.ToString("F3");
-                    break;
-                case "Y":
-                    _valY += step * _currentDirection;
-                    TxtAxisY.Text = _valY.ToString("F3");
-                    break;
-                case "Phi":
-                    _valPhi += step * _currentDirection;
-                    TxtAxisPhi.Text = _valPhi.ToString("F3");
-                    break;
+                case "A": _valA += step * _currentDirection; TxtAxisA.Text = _valA.ToString("F3"); break;
+                case "Theta": _valTheta += step * _currentDirection; TxtAxisTheta.Text = _valTheta.ToString("F3"); break;
+                case "Z": _valZ += step * _currentDirection; TxtAxisZ.Text = _valZ.ToString("F3"); break;
+                case "Y": _valY += step * _currentDirection; TxtAxisY.Text = _valY.ToString("F3"); break;
+                case "Phi": _valPhi += step * _currentDirection; TxtAxisPhi.Text = _valPhi.ToString("F3"); break;
             }
         }
 
-        // --- [조그 기능] 뷰 로드시 키 훅 연결 ---
         private void StationTeachingView_Loaded(object sender, RoutedEventArgs e)
         {
-            _parentWindow = Window.GetWindow(this);
-            if (_parentWindow != null)
+            // [핵심 수정] MainWindow를 찾아서 드라이버 이벤트를 연결합니다.
+            var mainWindow = Window.GetWindow(this) as MainWindow;
+
+            if (mainWindow != null && mainWindow.MyDriverControl != null)
             {
-                _parentWindow.PreviewKeyDown += OnParentWindowPreviewKeyDown;
-                _parentWindow.PreviewKeyUp += OnParentWindowPreviewKeyUp;
-                this.Focus();
+                // 드라이버 참조 저장 (해제할 때 쓰기 위해)
+                _driverRef = mainWindow.MyDriverControl.Driver;
+
+                // 이벤트 구독 (이제 드라이버가 소리치면 여기서 듣습니다!)
+                _driverRef.KeypadEvent += OnDriverKeypadEvent;
             }
         }
 
-        // --- [조그 기능] 뷰 언로드시 키 훅 해제 ---
         private void StationTeachingView_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (_parentWindow != null)
+            // 메모리 누수 방지를 위해 이벤트 연결 해제
+            if (_driverRef != null)
             {
-                _parentWindow.PreviewKeyDown -= OnParentWindowPreviewKeyDown;
-                _parentWindow.PreviewKeyUp -= OnParentWindowPreviewKeyUp;
-                _parentWindow = null;
+                _driverRef.KeypadEvent -= OnDriverKeypadEvent;
+                _driverRef = null;
             }
-            _jogTimer.Stop(); // 타이머 강제 정지
+            _jogTimer.Stop();
         }
 
-        // --- [조그 기능] 키 눌림 (매핑) ---
-        private void OnParentWindowPreviewKeyDown(object sender, KeyEventArgs e)
+        // [핵심 수정] 드라이버 전용 이벤트 핸들러 (KeyDown/KeyUp 통합됨)
+        private void OnDriverKeypadEvent(object sender, KeypadEventArgs e)
         {
-            if (e.IsRepeat) return;
-            if (_isSlotSetMode) return; // 슬롯 설정 중에는 조그 금지
-
-            switch (e.Key)
+            // UI 스레드에서 실행되도록 보장
+            this.Dispatcher.Invoke(() =>
             {
-                // 1축 물리버튼 -> A축
-                case Key.A: StartJog("A", -1); break;
-                case Key.B: StartJog("A", 1); break;
+                if (_isSlotSetMode) return;
 
-                // 2축 물리버튼 -> Theta(θ)축
-                case Key.C: StartJog("Theta", -1); break;
-                case Key.D: StartJog("Theta", 1); break;
-
-                // 3축 물리버튼 -> Z축
-                case Key.E: StartJog("Z", -1); break;
-                case Key.F: StartJog("Z", 1); break;
-
-                // 4축 물리버튼 -> Y축
-                case Key.G: StartJog("Y", -1); break;
-                case Key.H: StartJog("Y", 1); break;
-
-                // 5축 물리버튼 -> Phi(Φ)축
-                case Key.I: StartJog("Phi", -1); break;
-                case Key.J: StartJog("Phi", 1); break;
-            }
-        }
-
-        // --- [조그 기능] 키 뗌 (정지) ---
-        private void OnParentWindowPreviewKeyUp(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.A:
-                case Key.B:
+                if (e.IsDown)
+                {
+                    // --- [키 눌림] ---
+                    switch (e.Key)
+                    {
+                        case Key.A: StartJog("A", -1); break;
+                        case Key.B: StartJog("A", 1); break;
+                        case Key.C: StartJog("Theta", -1); break;
+                        case Key.D: StartJog("Theta", 1); break;
+                        case Key.E: StartJog("Z", -1); break;
+                        case Key.F: StartJog("Z", 1); break;
+                        case Key.G: StartJog("Y", -1); break;
+                        case Key.H: StartJog("Y", 1); break;
+                        case Key.I: StartJog("Phi", -1); break;
+                        case Key.J: StartJog("Phi", 1); break;
+                    }
+                }
+                else
+                {
+                    // --- [키 뗌] ---
+                    // 어떤 키를 떼든 해당 축 정지 명령을 보냄
                     StopJog();
-                    break;
-
-                case Key.C:
-                case Key.D:
-                    StopJog();
-                    break;
-
-                case Key.E:
-                case Key.F:
-                    StopJog();
-                    break;
-
-                case Key.G:
-                case Key.H:
-                    StopJog();
-                    break;
-
-                case Key.I:
-                case Key.J:
-                    StopJog();
-                    break;
-            }
+                }
+            });
         }
 
         private void StartJog(string axis, int direction)
         {
             _currentAxis = axis;
             _currentDirection = direction;
-
-            // 현재 움직이는 축 UI 강조 (선택사항)
             HighlightAxis(axis, true);
-
-            if (!_jogTimer.IsEnabled)
-                _jogTimer.Start();
+            if (!_jogTimer.IsEnabled) _jogTimer.Start();
         }
 
         private void StopJog()
@@ -198,11 +152,9 @@ namespace DEMO2.Manual.StationTeaching
             _currentDirection = 0;
         }
 
-        // UI 강조 처리 함수
         private void HighlightAxis(string axis, bool isActive)
         {
             Brush bg = isActive ? Brushes.SkyBlue : new SolidColorBrush(Color.FromRgb(173, 216, 230));
-
             switch (axis)
             {
                 case "A": TxtAxisA.Background = bg; break;
@@ -213,97 +165,56 @@ namespace DEMO2.Manual.StationTeaching
             }
         }
 
-        // --- 기존 메서드들 ---
-
+        // --- 기존 기능 코드들 (변경 없음) ---
         private void InitializeDropdowns()
         {
             var numbers = Enumerable.Range(1, 10).ToList();
-            cmbGroup.ItemsSource = numbers;
-            cmbGroup.SelectedIndex = 0;
-            cmbCassette.ItemsSource = numbers;
-            cmbCassette.SelectedIndex = 0;
+            cmbGroup.ItemsSource = numbers; cmbGroup.SelectedIndex = 0;
+            cmbCassette.ItemsSource = numbers; cmbCassette.SelectedIndex = 0;
         }
+        private void On1PointChecked(object sender, RoutedEventArgs e) { ChangeView(_onePointView); }
+        private void On3PointChecked(object sender, RoutedEventArgs e) { ChangeView(_threePointView); }
+        private void OnManualChecked(object sender, RoutedEventArgs e) { ChangeView(_manualPointView); }
 
-        private void On1PointChecked(object sender, RoutedEventArgs e)
+        private void ChangeView(UserControl view)
         {
-            _currentActiveView = _onePointView;
-            if (!_isSlotSetMode && PointsContentArea != null)
-                PointsContentArea.Content = _currentActiveView;
-        }
-
-        private void On3PointChecked(object sender, RoutedEventArgs e)
-        {
-            _currentActiveView = _threePointView;
-            if (!_isSlotSetMode && PointsContentArea != null)
-                PointsContentArea.Content = _currentActiveView;
-        }
-
-        private void OnManualChecked(object sender, RoutedEventArgs e)
-        {
-            _currentActiveView = _manualPointView;
-            if (!_isSlotSetMode && PointsContentArea != null)
-                PointsContentArea.Content = _currentActiveView;
+            _currentActiveView = view;
+            if (!_isSlotSetMode && PointsContentArea != null) PointsContentArea.Content = _currentActiveView;
         }
 
         private void BtnSlotSet_Click(object sender, RoutedEventArgs e)
         {
             _isSlotSetMode = !_isSlotSetMode;
-
             if (_isSlotSetMode)
             {
                 btnSlotSet.Background = _activeButtonColor;
                 PointsContentArea.Content = _slotSetView;
-                stackArm.IsEnabled = false;
-                borderBottomControl.IsEnabled = false;
-                gridRightInfo.IsEnabled = false;
+                stackArm.IsEnabled = false; borderBottomControl.IsEnabled = false; gridRightInfo.IsEnabled = false;
             }
             else
             {
                 btnSlotSet.Background = _defaultButtonColor;
                 PointsContentArea.Content = _currentActiveView;
-                stackArm.IsEnabled = true;
-                borderBottomControl.IsEnabled = true;
-                gridRightInfo.IsEnabled = true;
+                stackArm.IsEnabled = true; borderBottomControl.IsEnabled = true; gridRightInfo.IsEnabled = true;
             }
         }
 
         private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
-            ManualView parentView = FindParent<ManualView>(this);
-            if (parentView != null)
-            {
-                parentView.OpenTestView();
-            }
-            else
-            {
-                MessageBox.Show("ManualView를 찾을 수 없습니다.");
-            }
+            var parent = FindParent<ManualView>(this);
+            if (parent != null) parent.OpenTestView();
         }
-
         private void BtnSetting_Click(object sender, RoutedEventArgs e)
         {
-            ManualView parentView = FindParent<ManualView>(this);
-            if (parentView != null)
-            {
-                parentView.OpenSettingView();
-            }
-            else
-            {
-                MessageBox.Show("ManualView를 찾을 수 없습니다.");
-            }
+            var parent = FindParent<ManualView>(this);
+            if (parent != null) parent.OpenSettingView();
         }
-
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             DependencyObject parentObject = VisualTreeHelper.GetParent(child);
-
             if (parentObject == null) return null;
-
             T parent = parentObject as T;
-            if (parent != null)
-                return parent;
-            else
-                return FindParent<T>(parentObject);
+            return parent ?? FindParent<T>(parentObject);
         }
     }
 }

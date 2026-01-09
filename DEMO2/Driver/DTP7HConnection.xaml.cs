@@ -3,26 +3,21 @@ using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace DEMO2.Drivers
 {
     public partial class DTP7HConnection : UserControl
     {
-        // 실제 드라이버 인스턴스 (외부에서 주입받거나 여기서 생성)
         public DTP7HDriver Driver { get; private set; }
 
         public DTP7HConnection()
         {
             InitializeComponent();
 
-            // 드라이버 생성
             Driver = new DTP7HDriver();
 
-            // 포트 목록 로드
             LoadComPorts();
-
-            // (옵션) 포트 목록을 주기적으로 갱신하고 싶다면 타이머 사용 가능
+            LoadBaudRates(); // [추가] 보레이트 목록 로드
         }
 
         private void LoadComPorts()
@@ -33,30 +28,45 @@ namespace DEMO2.Drivers
             {
                 CmbPort.Items.Add(port);
             }
+            if (CmbPort.Items.Count > 0) CmbPort.SelectedIndex = 0;
+        }
 
-            if (CmbPort.Items.Count > 0)
-                CmbPort.SelectedIndex = 0;
+        // [추가] 보레이트 목록 채우기
+        private void LoadBaudRates()
+        {
+            CmbBaud.Items.Clear();
+            // DTP7H 기본값 115200을 포함하여 자주 쓰는 속도 추가
+            int[] bauds = { 9600, 19200, 38400, 57600, 115200 };
+
+            foreach (int baud in bauds)
+            {
+                CmbBaud.Items.Add(baud);
+            }
+
+            // 기본값 115200 선택
+            CmbBaud.SelectedItem = 115200;
         }
 
         private void BtnConnect_Click(object sender, RoutedEventArgs e)
         {
             if (Driver.IsConnected)
             {
-                // 연결 해제
                 Driver.Disconnect();
                 UpdateUI(false);
             }
             else
             {
-                // 연결 시도
-                if (CmbPort.SelectedItem == null)
+                if (CmbPort.SelectedItem == null || CmbBaud.SelectedItem == null)
                 {
-                    MessageBox.Show("Please select a COM port.");
+                    MessageBox.Show("Please select Port and Baud Rate.");
                     return;
                 }
 
                 string portName = CmbPort.SelectedItem.ToString();
-                bool success = Driver.Connect(portName);
+                int baudRate = (int)CmbBaud.SelectedItem; // 선택된 보레이트 가져오기
+
+                // [수정] 보레이트도 같이 전달
+                bool success = Driver.Connect(portName, baudRate);
 
                 if (success)
                 {
@@ -64,7 +74,7 @@ namespace DEMO2.Drivers
                 }
                 else
                 {
-                    MessageBox.Show("Connection Failed. Check Port or Cable.");
+                    MessageBox.Show("Connection Failed.");
                     UpdateUI(false);
                 }
             }
@@ -74,15 +84,17 @@ namespace DEMO2.Drivers
         {
             if (isConnected)
             {
-                StatusLed.Fill = Brushes.LimeGreen; // 연결됨 (녹색)
+                StatusLed.Fill = Brushes.LimeGreen;
                 BtnConnect.Content = "Close";
                 CmbPort.IsEnabled = false;
+                CmbBaud.IsEnabled = false; // 연결 중엔 수정 불가
             }
             else
             {
-                StatusLed.Fill = Brushes.Red;       // 끊김 (빨강)
+                StatusLed.Fill = Brushes.Red;
                 BtnConnect.Content = "Connect";
                 CmbPort.IsEnabled = true;
+                CmbBaud.IsEnabled = true;
             }
         }
     }

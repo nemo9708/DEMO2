@@ -21,6 +21,7 @@ namespace DEMO2
             // 이벤트 핸들러 연결
             btnManual.Click += BtnManual_Click;
             btnAuto.Click += BtnAuto_Click;
+            btnDriverTest.Click += BtnDriverTest_Click;
             btnLock.Click += BtnLock_Click;
             btnCloseApp.Click += BtnCloseApp_Click;
 
@@ -31,7 +32,7 @@ namespace DEMO2
         // ▼ 이벤트가 발생하면 실행될 함수 (실제 동작)
         private void OnDriverKeypadEvent(object sender, KeypadEventArgs e)
         {
-            // 통신은 별도 스레드에서 돌기 때문에, UI를 고치려면 Dispatcher가 필요합니다.
+            // 통신은 별도 스레드에서 돌기 때문에, UI를 고치려면 Dispatcher가 필요
             this.Dispatcher.Invoke(() =>
             {
                 if (e.IsDown)
@@ -45,12 +46,19 @@ namespace DEMO2
                     Console.WriteLine($"[Main] Key Up: {e.Key}");
                 }
             });
-        } // <--- [수정] 여기에 닫는 괄호 '}'가 빠져 있었습니다!
+        }
 
         private void BtnManual_Click(object sender, RoutedEventArgs e)
         {
             // ManualView를 표시
             MainContentArea.Content = new ManualView();
+        }
+
+        private void BtnDriverTest_Click(object sender, RoutedEventArgs e)
+        {
+            // 중앙 화면을 DriverTestView로 변경
+            // (DriverTestView.xaml이 DEMO2.Manual 폴더 등에 있어야 함)
+            MainContentArea.Content = new DriverTestView();
         }
 
         private void BtnAuto_Click(object sender, RoutedEventArgs e)

@@ -123,11 +123,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Manual\StationTeaching\TEST\TestView.xaml">
+    <Page Include="Manual\StationTeaching\TEST\DriverTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Manual\TEST2.xaml">
+    <Page Include="Manual\StationTeaching\TEST\TestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,11 +169,11 @@
     <Compile Include="Manual\StationTeaching\StationTeachingView.xaml.cs">
       <DependentUpon>StationTeachingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Manual\StationTeaching\TEST\DriverTestView.xaml.cs">
+      <DependentUpon>DriverTestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Manual\StationTeaching\TEST\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Manual\TEST2.xaml.cs">
-      <DependentUpon>TEST2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

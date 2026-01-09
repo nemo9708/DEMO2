@@ -17,7 +17,6 @@ namespace DEMO2.Manual
         private StationTeachingView _stationView;
         private SettingView _settingView;
         private TestView _testView;
-        private Test2View _test2View;         //물리 키 맵핑 테스트용
 
         public ManualView()
         {
@@ -32,7 +31,6 @@ namespace DEMO2.Manual
             _stationView = new StationTeachingView();
             _settingView = new SettingView();
             _testView = new TestView();
-            _test2View = new Test2View(); // 물리 키 맵핑 테스트용
 
             SwitchTab("Manual");
         }
@@ -163,11 +161,6 @@ namespace DEMO2.Manual
             tabTest.FontWeight = FontWeights.Normal;
             tabTest.BorderBrush = Brushes.Gray;
 
-            //물리키 맵핑 테스트용
-            tabTest2.Background = InactiveColor;
-            tabTest2.FontWeight = FontWeights.Normal;
-            tabTest2.BorderBrush = Brushes.Gray;
-
             if (tabName == "Manual")
             {
                 ManualContentArea.Content = _menuView;
@@ -197,15 +190,6 @@ namespace DEMO2.Manual
                 tabTest.Background = ActiveColor;
                 tabTest.FontWeight = FontWeights.Bold;
                 tabTest.BorderBrush = Brushes.Black;
-            }
-
-            //물리 키 맵핑 테스트용
-            else if (tabName == "Test2")
-            {
-                ManualContentArea.Content = _test2View;
-                tabTest2.Background = ActiveColor;
-                tabTest2.FontWeight = FontWeights.Bold;
-                tabTest2.BorderBrush = Brushes.Black;
             }
         }
     }
