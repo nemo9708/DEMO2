@@ -18,32 +18,40 @@ namespace DEMO2.Drivers
         public event EventHandler<KeypadEventArgs> KeypadEvent;
         private List<byte> _receiveBuffer = new List<byte>();
 
-        public bool IsConnected => _serialPort != null && _serialPort.IsOpen;
-
+        // 키 매핑 (기존과 동일)
         private readonly Dictionary<byte, Key> _keyMap = new Dictionary<byte, Key>
         {
-            { 0x1E, Key.A }, { 0x30, Key.B }, { 0x2E, Key.C }, { 0x20, Key.D },
-            { 0x12, Key.E }, { 0x21, Key.F }, { 0x22, Key.G }, { 0x23, Key.H },
-            { 0x17, Key.I }, { 0x24, Key.J }, { 0x25, Key.K }, { 0x26, Key.L }
+            { 0x1E, Key.A }, { 0x30, Key.B },
+            { 0x2E, Key.C }, { 0x20, Key.D },
+            { 0x12, Key.E }, { 0x21, Key.F },
+            { 0x22, Key.G }, { 0x23, Key.H },
+            { 0x17, Key.I }, { 0x24, Key.J },
+            { 0x25, Key.K }, { 0x26, Key.L }
         };
+
+        public bool IsConnected => _serialPort != null && _serialPort.IsOpen;
 
         public DTP7HDriver()
         {
             _serialPort = new SerialPort();
         }
 
+        // [수정] BaudRate를 인자로 받음
         public bool Connect(string portName, int baudRate)
         {
             try
             {
                 if (_serialPort.IsOpen) _serialPort.Close();
+
                 _serialPort.PortName = portName;
-                _serialPort.BaudRate = baudRate;
+                _serialPort.BaudRate = baudRate; // 받아온 값으로 설정
                 _serialPort.DataBits = 8;
                 _serialPort.StopBits = StopBits.One;
                 _serialPort.Parity = Parity.None;
+
                 _serialPort.DataReceived += SerialPort_DataReceived;
                 _serialPort.Open();
+
                 return true;
             }
             catch (Exception ex)
@@ -55,10 +63,17 @@ namespace DEMO2.Drivers
 
         public void Disconnect()
         {
-            try { if (_serialPort.IsOpen) { _serialPort.DataReceived -= SerialPort_DataReceived; _serialPort.Close(); } } catch { }
+            try
+            {
+                if (_serialPort.IsOpen)
+                {
+                    _serialPort.DataReceived -= SerialPort_DataReceived;
+                    _serialPort.Close();
+                }
+            }
+            catch { }
         }
 
-        // --- [추가됨] 부저 제어 ---
         // isOn: true(켜기), false(끄기)
         public void SetBuzzer(bool isOn)
         {
@@ -151,9 +166,49 @@ namespace DEMO2.Drivers
             return crc;
         }
 
-        // (기존 수신 로직은 동일)
-        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e) { /* ... 기존 코드 유지 ... */ }
-        private void ProcessBuffer() { /* ... 기존 코드 유지 ... */ }
-        private void ParsePacket(byte[] packet) { /* ... 기존 코드 유지 ... */ }
+        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                int bytesToRead = _serialPort.BytesToRead;
+                byte[] buffer = new byte[bytesToRead];
+                _serialPort.Read(buffer, 0, bytesToRead);
+                _receiveBuffer.AddRange(buffer);
+                ProcessBuffer();
+            }
+            catch { }
+        }
+
+        private void ProcessBuffer()
+        {
+            while (_receiveBuffer.Count >= 9)
+            {
+                int stxIndex = _receiveBuffer.IndexOf(0x02);
+                if (stxIndex == -1) { _receiveBuffer.Clear(); return; }
+                if (stxIndex > 0) _receiveBuffer.RemoveRange(0, stxIndex);
+                if (_receiveBuffer.Count < 9) return;
+
+                if (_receiveBuffer[8] != 0x03) { _receiveBuffer.RemoveAt(0); continue; }
+
+                byte[] packet = _receiveBuffer.GetRange(0, 9).ToArray();
+                _receiveBuffer.RemoveRange(0, 9);
+                ParsePacket(packet);
+            }
+        }
+
+        private void ParsePacket(byte[] packet)
+        {
+            bool isDown = (packet[3] == 0x31);
+            byte keyCode = packet[4];
+
+            if (_keyMap.ContainsKey(keyCode))
+            {
+                KeypadEvent?.Invoke(this, new KeypadEventArgs
+                {
+                    Key = _keyMap[keyCode],
+                    IsDown = isDown
+                });
+            }
+        }
     }
 }
