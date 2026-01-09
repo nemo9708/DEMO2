@@ -99,7 +99,7 @@
                     <TextBlock Text="Cassette No. :" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="20,0,10,0"/>
                     <ComboBox x:Name="cmbCassette" Style="{StaticResource DropdownStyle}"/>
                     <TextBlock Text="Arm :" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="40,0,10,0"/>
-                    
+
                     <StackPanel x:Name="stackArm" Orientation="Horizontal">
                         <RadioButton Content="A" GroupName="ArmGroup" Style="{StaticResource ToggleButtonStyle}" Width="50" Height="30" IsChecked="True"/>
                         <RadioButton Content="B" GroupName="ArmGroup" Style="{StaticResource ToggleButtonStyle}" Width="50" Height="30"/>
@@ -159,26 +159,32 @@
                     <StackPanel Grid.Column="1">
                         <TextBlock Text="Position :" FontWeight="Bold" Margin="0,0,0,5"/>
                         <TextBlock Text="Axis" Margin="0,0,0,5"/>
+
                         <Grid Margin="0,5">
                             <TextBlock Text="A  :" VerticalAlignment="Center"/>
-                            <TextBox Text="123456.123" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisA" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
                         </Grid>
+
                         <Grid Margin="0,5">
                             <TextBlock Text="θ  :" VerticalAlignment="Center"/>
-                            <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisTheta" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
                         </Grid>
+
                         <Grid Margin="0,5">
                             <TextBlock Text="Z  :" VerticalAlignment="Center"/>
-                            <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisZ" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
                         </Grid>
+
                         <Grid Margin="0,5">
                             <TextBlock Text="Y  :" VerticalAlignment="Center"/>
-                            <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisY" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
                         </Grid>
+
                         <Grid Margin="0,5">
                             <TextBlock Text="Φ  :" VerticalAlignment="Center"/>
-                            <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisPhi" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
                         </Grid>
+
                     </StackPanel>
                 </Grid>
             </Border>
