@@ -82,7 +82,7 @@ namespace DEMO2.Drivers
             SendPacket(0x11, 0x3B, state, 0x20, 0x20);
         }
 
-        // --- [추가됨] LED 제어 ---
+        // --- LED 제어 ---
         // ledId: 0x41(L1), 0x42(L2), 0x43(L3), 0x61(R1), 0x62(R2), 0x63(R3)
         // color: 0x30(Off), 0x31(Blue), 0x32(Red), 0x33(Purple/All)
         public void SetLed(byte ledId, byte color)
@@ -90,7 +90,7 @@ namespace DEMO2.Drivers
             SendPacket(0x11, 0x3A, ledId, color, 0x20);
         }
 
-        // --- [추가됨] 패킷 전송 및 CRC 계산 ---
+        // --- 패킷 전송 및 CRC 계산 ---
         private void SendPacket(byte mod, byte sel, byte d1, byte d2, byte d3)
         {
             if (!IsConnected) return;
@@ -103,17 +103,19 @@ namespace DEMO2.Drivers
             packet[4] = d2;
             packet[5] = d3;
 
-            // CRC16 (Modbus) 계산 (앞 6바이트 대상)
-            ushort crc = CalculateCrc(packet, 6);
+            // CRC 계산 범위 변경
+            // 기존: CalculateCrc(packet, 6); -> STX 포함 (잘못됨 가능성 높음)
+            // 변경: STX를 제외하고 MOD(idx 1)부터 DATA3(idx 5)까지 5바이트만 계산
 
-            // [수정] Modbus는 일반적으로 Little Endian (Low Byte 먼저) 방식을 사용합니다.
-            // 기존: Big Endian (High -> Low)
-            // packet[6] = (byte)(crc >> 8); 
-            // packet[7] = (byte)(crc & 0xFF);
+            // 임시 버퍼를 만들어 계산하거나, CalculateCrc 메서드를 수정하여 offset 기능을 추가해야 합니다.
+            // 여기서는 이해를 돕기 위해 임시 배열을 사용합니다.
+            byte[] payload = new byte[] { mod, sel, d1, d2, d3 };
+            ushort crc = CalculateCrc(payload, 5);
 
-            // 변경: Little Endian (Low -> High)
-            packet[6] = (byte)(crc & 0xFF); // CRC_L
-            packet[7] = (byte)(crc >> 8);   // CRC_H
+            // Big Endian (High Byte 먼저) 적용
+            // 매뉴얼 명세: ... CRC_H CRC_L ...
+            packet[6] = (byte)(crc >> 8);   // CRC_H
+            packet[7] = (byte)(crc & 0xFF); // CRC_L
 
             packet[8] = 0x03; // ETX
 
