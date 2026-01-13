@@ -105,11 +105,15 @@ namespace DEMO2.Drivers
 
             // CRC16 (Modbus) 계산 (앞 6바이트 대상)
             ushort crc = CalculateCrc(packet, 6);
-            packet[6] = (byte)(crc >> 8); // CRC_H (or Lo depending on protocol, trying Std Big Endian here)
-            packet[7] = (byte)(crc & 0xFF); // CRC_L
 
-            // DTP7H manual implies Little Endian for some fields but usually Big Endian for CRC in packets. 
-            // If it doesn't work, swap packet[6] and packet[7].
+            // [수정] Modbus는 일반적으로 Little Endian (Low Byte 먼저) 방식을 사용합니다.
+            // 기존: Big Endian (High -> Low)
+            // packet[6] = (byte)(crc >> 8); 
+            // packet[7] = (byte)(crc & 0xFF);
+
+            // 변경: Little Endian (Low -> High)
+            packet[6] = (byte)(crc & 0xFF); // CRC_L
+            packet[7] = (byte)(crc >> 8);   // CRC_H
 
             packet[8] = 0x03; // ETX
 
