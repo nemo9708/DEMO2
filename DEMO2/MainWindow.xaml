@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:drivers="clr-namespace:DEMO2.Drivers"
         mc:Ignorable="d"
-        Title="Teaching Pendant Simulator" Height="600" Width="1000"
-        Background="#FF333333">
+        Title="Teaching Pendant Simulator"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="#FF333333"
+        WindowState="Maximized">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -14,27 +18,53 @@
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Background="#FF444444" BorderBrush="Gray" BorderThickness="0,0,0,1">
-            <StackPanel Orientation="Horizontal" 
-                        HorizontalAlignment="Left" 
+            <Grid Margin="10,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+
+                    <Button x:Name="btnManual" Content="Manual"
+                        Width="70" Height="30" Margin="5,0"
+                        FontSize="12" FontWeight="Bold"
+                        Background="#FF555555" Foreground="White"/>
+
+                    <Button x:Name="btnAuto" Content="Auto"
+                        Width="70" Height="30" Margin="5,0"
+                        FontSize="12" FontWeight="Bold"
+                        Background="#FF555555" Foreground="White"/>
+
+                    <Button x:Name="btnDriverTest" Content="D.Test"
+                        Width="70" Height="30" Margin="5,0"
+                        FontSize="12" FontWeight="Bold"
+                        Background="#FF008080" Foreground="White"/>
+                    
+                    <Button x:Name="btnLock" Content="Lock"
+                        Width="70" Height="30" Margin="5,0"
+                        FontSize="12" FontWeight="Bold"
+                        Background="#FF555555" Foreground="White"/>
+                </StackPanel>
+
+                <drivers:DTP7HConnection x:Name="MyDriverControl" 
+                                         Grid.Column="2"
+                                         Width="420" Height="40" 
+                                         Margin="0,0,10,0"
+                                         VerticalAlignment="Center"/>
+
+                <Button x:Name="btnCloseApp"
+                        Grid.Column="3"
+                        Content="Close"
+                        Width="80" Height="30"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Margin="10,0,0,0">
-
-                <Button x:Name="btnManual" Content="Manual" 
-                        Width="70" Height="30" Margin="5,0"
                         FontSize="12" FontWeight="Bold"
-                        Background="#FF555555" Foreground="White"/>
-
-                <Button x:Name="btnAuto" Content="Auto" 
-                        Width="70" Height="30" Margin="5,0"
-                        FontSize="12" FontWeight="Bold"
-                        Background="#FF555555" Foreground="White"/>
-
-                <Button x:Name="btnLock" Content="Lock" 
-                        Width="70" Height="30" Margin="5,0"
-                        FontSize="12" FontWeight="Bold"
-                        Background="#FF555555" Foreground="White"/>
-
-            </StackPanel>
+                        Background="#FFAA0000"
+                        Foreground="White"/>
+            </Grid>
         </Border>
 
         <Grid Grid.Row="1" Background="White">

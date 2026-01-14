@@ -1,0 +1,268 @@
+﻿<UserControl x:Class="DEMO2.Manual.StationTeaching.TEST.TestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000"
+             Background="White">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BorderBrushColor" Color="#0A3340"/>
+        <SolidColorBrush x:Key="SkyBlue" Color="#B6E5F4"/>
+        <SolidColorBrush x:Key="GreenBrush" Color="#79D184"/>
+        <SolidColorBrush x:Key="OrangeBrush" Color="#E8A17C"/>
+        <SolidColorBrush x:Key="GrayTextBox" Color="#D9D9D9"/>
+
+        <Style x:Key="NavButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Background" Value="{StaticResource SkyBlue}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="TabButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Margin" Value="0,0,4,0"/>
+            <Setter Property="Background" Value="#D9D9D9"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="TabCloseButtonStyle" TargetType="Button" BasedOn="{StaticResource TabButtonStyle}">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Content" Value="X"/>
+            <Setter Property="Background" Value="#B0B0B0"/>
+        </Style>
+
+        <Style x:Key="ArrowButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Margin" Value="0,0,4,0"/>
+            <Setter Property="Background" Value="#B7DECD"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="CloseButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Background" Value="#E04B4B"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="HeaderLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+
+        <Style x:Key="HeaderBorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Background" Value="{StaticResource OrangeBrush}"/>
+        </Style>
+
+        <Style x:Key="DropdownStyle" TargetType="ComboBox">
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="{StaticResource OrangeBrush}"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="HeaderArmButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Margin" Value="5,0,5,-0.2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="AxisTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Background" Value="{StaticResource GrayTextBox}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="DimGray"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="140"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Background" Value="{StaticResource SkyBlue}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Navigation -->
+            <StackPanel Grid.Column="0" VerticalAlignment="Top">
+                <Button x:Name="btnCassette" Content="Cassette" Background="{StaticResource GreenBrush}" Style="{StaticResource NavButtonStyle}" Click="OnCassetteClick"/>
+                <Button x:Name="btnStage" Content="Stage" Style="{StaticResource NavButtonStyle}" Click="OnStageClick"/>
+            </StackPanel>
+
+            <!-- Main Content -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="110"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Border Grid.Row="0" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="2" Padding="10" Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+                            <TextBlock Text="Group :" Style="{StaticResource HeaderLabelStyle}"/>
+                            <ComboBox x:Name="cmbGroup" Style="{StaticResource DropdownStyle}" Margin="5,0,5,-0.2"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBlock Text="Cassette No. :" Style="{StaticResource HeaderLabelStyle}"/>
+                            <ComboBox x:Name="cmbCassette" Style="{StaticResource DropdownStyle}" Margin="5,0,5,-0.2"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                            <TextBlock Text="Arm :" Style="{StaticResource HeaderLabelStyle}"/>
+                            <Button x:Name="btnArmA" Content="A" Style="{StaticResource HeaderArmButtonStyle}" Background="{StaticResource GreenBrush}" IsHitTestVisible="False" Margin="5,5,5,3" Height="Auto"/>
+                            <Button x:Name="btnArmB" Content="B" Style="{StaticResource HeaderArmButtonStyle}" Background="{StaticResource GrayTextBox}" IsHitTestVisible="False" Height="Auto" Margin="5,5,5,3" RenderTransformOrigin="0.496,0.72"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Axis Readouts -->
+                <Grid Grid.Row="1" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="2" Padding="20" Margin="0,0,10,0">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="A軸   :" VerticalAlignment="Center" FontSize="16" Width="70"/>
+                                <TextBox Style="{StaticResource AxisTextBoxStyle}" Text="000000.00" IsReadOnly="True"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="B軸   :" VerticalAlignment="Center" FontSize="16" Width="70"/>
+                                <TextBox Style="{StaticResource AxisTextBoxStyle}" Text="000000.00" IsReadOnly="True"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="θ軸   :" VerticalAlignment="Center" FontSize="16" Width="70"/>
+                                <TextBox Style="{StaticResource AxisTextBoxStyle}" Text="000000.00" IsReadOnly="True"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="Z軸   :" VerticalAlignment="Center" FontSize="16" Width="70"/>
+                                <TextBox Style="{StaticResource AxisTextBoxStyle}" Text="000000.00" IsReadOnly="True"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="2" Padding="20" Margin="10,0,0,0">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="Z2軸 :" VerticalAlignment="Center" FontSize="16" Width="70"/>
+                                <TextBox Style="{StaticResource AxisTextBoxStyle}" Text="000000.00" IsReadOnly="True"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="Y軸   :" VerticalAlignment="Center" FontSize="16" Width="70"/>
+                                <TextBox Style="{StaticResource AxisTextBoxStyle}" Text="000000.00" IsReadOnly="True"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="Φ軸   :" VerticalAlignment="Center" FontSize="16" Width="70"/>
+                                <TextBox Style="{StaticResource AxisTextBoxStyle}" Text="000000.00" IsReadOnly="True"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="8軸   :" VerticalAlignment="Center" FontSize="16" Width="70"/>
+                                <TextBox Style="{StaticResource AxisTextBoxStyle}" Text="000000.00" IsReadOnly="True"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Bottom Controls -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="220"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,8">
+                            <Button Content="Pick Ready" Style="{StaticResource ActionButtonStyle}"/>
+                            <Button Content="Pick" Style="{StaticResource ActionButtonStyle}"/>
+                            <Button Content="Place Ready" Style="{StaticResource ActionButtonStyle}"/>
+                            <Button Content="Place" Style="{StaticResource ActionButtonStyle}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Content="Return to org." Style="{StaticResource ActionButtonStyle}"/>
+                            <Button Content="Slow Stop" Style="{StaticResource ActionButtonStyle}"/>
+                            <Button Content="STEP ON" Style="{StaticResource ActionButtonStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Border Grid.Column="2" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="2" Background="#D9D9D9" Padding="10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Speed" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="1" Background="{StaticResource SkyBlue}" Padding="30,0" Margin="0,0,5,0">
+                                    <TextBox x:Name="txtSpeed" Text="000" Background="Transparent" BorderThickness="0" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="m/s" FontSize="16" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

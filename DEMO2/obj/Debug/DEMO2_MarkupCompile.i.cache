@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\App.xaml
-744448949
+16-1543955996
 
-15144240074
+251875886804
 131569487696
-MainWindow.xaml;Manual\ManialMenuView.xaml;Manual\ManualView.xaml;Manual\StationTeaching\Points\ManualPointView.xaml;Manual\StationTeaching\Points\OnePointView.xaml;Manual\StationTeaching\Points\ThreePointView.xaml;Manual\StationTeaching\StationTeachingView.xaml;
+Driver\DTP7HConnection.xaml;MainWindow.xaml;Manual\ManualMenuView.xaml;Manual\ManualView.xaml;Manual\Setting\OriginOffset.xaml;Manual\Setting\RetrySet.xaml;Manual\Setting\SettingView.xaml;Manual\Setting\SystemPoint.xaml;Manual\Setting\VacuumSetView.xaml;Manual\StationTeaching\Points\ManualPointView.xaml;Manual\StationTeaching\Points\OnePointView.xaml;Manual\StationTeaching\Points\SlotSetView.xaml;Manual\StationTeaching\Points\ThreePointView.xaml;Manual\StationTeaching\StationTeachingView.xaml;Manual\StationTeaching\TEST\TestView.xaml;Manual\TEST2.xaml;
 
 False
 

@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using DEMO2.Manual.StationTeaching; // 경로 필수
+using DEMO2.Manual.StationTeaching;
+using DEMO2.Manual.StationTeaching.TEST;
+using DEMO2.Manual.Setting;
 
 namespace DEMO2.Manual
 {
@@ -13,6 +15,8 @@ namespace DEMO2.Manual
 
         private ManualMenuView _menuView;
         private StationTeachingView _stationView;
+        private SettingView _settingView;
+        private TestView _testView;
 
         public ManualView()
         {
@@ -20,8 +24,13 @@ namespace DEMO2.Manual
 
             _menuView = new ManualMenuView();
             _menuView.StationTeachingClicked += OnStationTeachingClicked;
+            _menuView.SettingClicked += OnSettingClicked;
+            _menuView.Test2Clicked += OnTest2Clicked;
 
+            // 초기화
             _stationView = new StationTeachingView();
+            _settingView = new SettingView();
+            _testView = new TestView();
 
             SwitchTab("Manual");
         }
@@ -31,6 +40,22 @@ namespace DEMO2.Manual
         {
             tabStation.Visibility = Visibility.Visible;
             SwitchTab("Station");
+        }
+
+        private void OnSettingClicked(object sender, System.EventArgs e)
+        {
+            OpenSettingView();
+        }
+
+        private void OnTest2Clicked(object sender, System.EventArgs e)
+        {
+            OpenTest2View();
+        }
+
+        private void TabSettingClicked(object sender, System.EventArgs e)
+        {
+            tabSetting.Visibility = Visibility.Visible;
+            SwitchTab("Setting");
         }
 
         // 탭 헤더 클릭
@@ -44,7 +69,12 @@ namespace DEMO2.Manual
             SwitchTab("Station");
         }
 
-        // [추가됨] X 버튼 클릭 (탭 닫기)
+        private void TabSetting_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchTab("Setting");
+        }
+
+        // X 버튼 클릭 (탭 닫기)
         private void BtnCloseTab_Click(object sender, RoutedEventArgs e)
         {
             // 부모 버튼(tabStation)의 클릭 이벤트가 발생하지 않도록 방지
@@ -57,35 +87,109 @@ namespace DEMO2.Manual
             SwitchTab("Manual");
         }
 
+        private void BtnCloseSettingTab_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            tabSetting.Visibility = Visibility.Collapsed;
+            SwitchTab("Manual");
+        }
+
+        private void TabTest_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchTab("Test");
+        }
+
+        // 물리 키 맵핑 테스트용
+        private void TabTest2_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchTab("Test2");
+        }
+
+        // TEST 탭 닫기 버튼 클릭
+        private void BtnCloseTestTab_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true; // 부모 버튼 클릭 방지
+            tabTest.Visibility = Visibility.Collapsed;
+            SwitchTab("Manual");
+        }
+
+        // 물리 키 맵핑 테스트용
+        private void BtnCloseTest2Tab_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            tabTest2.Visibility = Visibility.Collapsed;
+            SwitchTab("Manual");
+        }
+
+        // 외부에서 호출할 메서드
+        public void OpenTestView()
+        {
+            tabTest.Visibility = Visibility.Visible;
+            SwitchTab("Test");
+        }
+
+        // 물리 키 맵핑 테스트용
+        public void OpenTest2View()
+        {
+            tabTest2.Visibility = Visibility.Visible;
+            SwitchTab("Test2");
+        }
+
+        public void OpenSettingView()
+        {
+            tabSetting.Visibility = Visibility.Visible;
+            SwitchTab("Setting");
+        }
+
         private void SwitchTab(string tabName)
         {
+            // 스타일 초기화 (모두 비활성 상태로 설정 후 선택된 것만 활성화)
+            tabManual.Background = InactiveColor;
+            tabManual.FontWeight = FontWeights.Normal;
+            tabManual.BorderBrush = Brushes.Gray;
+
+            tabStation.Background = InactiveColor;
+            tabStation.FontWeight = FontWeights.Normal;
+            tabStation.BorderBrush = Brushes.Gray;
+
+            tabSetting.Background = InactiveColor;
+            tabSetting.FontWeight = FontWeights.Normal;
+            tabSetting.BorderBrush = Brushes.Gray;
+
+            // Test 탭 초기화
+            tabTest.Background = InactiveColor;
+            tabTest.FontWeight = FontWeights.Normal;
+            tabTest.BorderBrush = Brushes.Gray;
+
             if (tabName == "Manual")
             {
                 ManualContentArea.Content = _menuView;
-
-                // 스타일 업데이트
                 tabManual.Background = ActiveColor;
-                tabStation.Background = InactiveColor;
                 tabManual.FontWeight = FontWeights.Bold;
-                tabStation.FontWeight = FontWeights.Normal;
-
-                // 테두리 강조 (선택된 탭 느낌)
                 tabManual.BorderBrush = Brushes.Black;
-                tabStation.BorderBrush = Brushes.Gray;
             }
             else if (tabName == "Station")
             {
                 ManualContentArea.Content = _stationView;
-
-                // 스타일 업데이트
-                tabManual.Background = InactiveColor;
                 tabStation.Background = ActiveColor;
-                tabManual.FontWeight = FontWeights.Normal;
                 tabStation.FontWeight = FontWeights.Bold;
-
-                // 테두리 강조
-                tabManual.BorderBrush = Brushes.Gray;
                 tabStation.BorderBrush = Brushes.Black;
+            }
+            else if (tabName == "Setting")
+            {
+                ManualContentArea.Content = _settingView;
+                tabSetting.Background = ActiveColor;
+                tabSetting.FontWeight = FontWeights.Bold;
+                tabSetting.BorderBrush = Brushes.Black;
+            }
+
+            // Test 탭 선택 시 로직
+            else if (tabName == "Test")
+            {
+                ManualContentArea.Content = _testView;
+                tabTest.Background = ActiveColor;
+                tabTest.FontWeight = FontWeights.Bold;
+                tabTest.BorderBrush = Brushes.Black;
             }
         }
     }
