@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Windows.Input;
+using System.Threading; // Sleep 사용을 위해 추가
 
 namespace DEMO2.Drivers
 {
@@ -18,14 +19,16 @@ namespace DEMO2.Drivers
         public event EventHandler<KeypadEventArgs> KeypadEvent;
         private List<byte> _receiveBuffer = new List<byte>();
 
-        // DTP7H 모델용 LED 주소 정의 (매뉴얼 11페이지 3.3.2 참조)
-        public const byte LED_LEFT_1 = 0xC1;
-        public const byte LED_LEFT_2 = 0xC4;
-        public const byte LED_LEFT_3 = 0xC7;
+        // [수정 1] 시리얼 통신 규격에 맞는 주소로 변경 (피드백 반영)
+        // Left LED: 순차적 (0x41 ~ 0x43)
+        public const byte LED_LEFT_1 = 0x41;
+        public const byte LED_LEFT_2 = 0x42;
+        public const byte LED_LEFT_3 = 0x43;
 
-        public const byte LED_RIGHT_1 = 0xCA;
-        public const byte LED_RIGHT_2 = 0xCD;
-        public const byte LED_RIGHT_3 = 0xD0;
+        // Right LED: 역순 배치 (0x63 ~ 0x61) - 피드백 내용 반영
+        public const byte LED_RIGHT_1 = 0x63;
+        public const byte LED_RIGHT_2 = 0x62;
+        public const byte LED_RIGHT_3 = 0x61;
 
         // LED 색상 정의
         public const byte LED_COLOR_OFF = 0x30;
@@ -59,12 +62,12 @@ namespace DEMO2.Drivers
                 if (_serialPort.IsOpen) _serialPort.Close();
 
                 _serialPort.PortName = portName;
-                _serialPort.BaudRate = baudRate;
+                _serialPort.BaudRate = 115200; // 피드백: 115200 고정 필수
                 _serialPort.DataBits = 8;
                 _serialPort.StopBits = StopBits.One;
                 _serialPort.Parity = Parity.None;
 
-                // [핵심 수정] 장비가 PC의 존재를 인식하도록 신호를 켭니다.
+                // 장비가 PC의 존재를 인식하도록 신호 활성화 (기존 유지)
                 _serialPort.DtrEnable = true;
                 _serialPort.RtsEnable = true;
 
@@ -93,26 +96,23 @@ namespace DEMO2.Drivers
             catch { }
         }
 
-        // 부저 제어 (매뉴얼 18페이지 5.2 참조)
-        // isOn: true(켜기), false(끄기)
+        // 부저 제어
         public void SetBuzzer(bool isOn)
         {
-            // STX(02) MOD(11) SEL(3B) DATA1(31=On, 30=Off) DATA2(20) DATA3(20) CRC_H CRC_L ETX(03)
+            // 부저 On/Off 값 (0x31/0x30)
             byte state = isOn ? (byte)0x31 : (byte)0x30;
             // SEL: 0x3B (Buzzer)
             SendPacket(0x11, 0x3B, state, 0x20, 0x20);
         }
 
-        // LED 제어 (매뉴얼 16페이지 5.1 참조)
-        // ledId: 상단의 LED_LEFT_1 등의 상수 사용
-        // color: 상단의 LED_COLOR_BLUE 등의 상수 사용
+        // LED 제어
         public void SetLed(byte ledId, byte color)
         {
             // SEL: 0x3A (LED)
             SendPacket(0x11, 0x3A, ledId, color, 0x20);
         }
 
-        // 패킷 전송 및 CRC 계산 수정됨
+        // 패킷 전송
         private void SendPacket(byte mod, byte sel, byte d1, byte d2, byte d3)
         {
             if (!IsConnected) return;
@@ -125,7 +125,7 @@ namespace DEMO2.Drivers
             packet[4] = d2;
             packet[5] = d3;
 
-            // [중요] CRC 계산: STX(idx 0)부터 DATA3(idx 5)까지 총 6바이트
+            // CRC 계산: STX(idx 0)부터 DATA3(idx 5)까지 총 6바이트
             ushort crc = CalculateCrc(packet, 6);
 
             packet[6] = (byte)(crc >> 8);   // CRC_H (Big Endian)
@@ -135,12 +135,14 @@ namespace DEMO2.Drivers
             try
             {
                 _serialPort.Write(packet, 0, packet.Length);
-                // 디버깅용: Console.WriteLine($"TX: {BitConverter.ToString(packet)}"); 
+
+                // [수정 2] 피드백 반영: 전송 후 필수 지연 시간 추가 (5ms 이상 권장)
+                Thread.Sleep(10);
             }
             catch { }
         }
 
-        // CRC16 Modbus Lookup Table (매뉴얼과 호환되는 표준 테이블)
+        // CRC16 Modbus Lookup Table
         private static readonly ushort[] CrcTable = {
             0X0000, 0XC0C1, 0XC181, 0X0140, 0XC301, 0X03C0, 0X0280, 0XC241,
             0XC601, 0X06C0, 0X0780, 0XC741, 0X0500, 0XC5C1, 0XC481, 0X0440,
@@ -181,7 +183,7 @@ namespace DEMO2.Drivers
 
         private ushort CalculateCrc(byte[] data, int length)
         {
-            ushort crc = 0xFFFF;
+            ushort crc = 0xFFFF; // Modbus 초기값
 
             for (int i = 0; i < length; i++)
             {
@@ -213,7 +215,6 @@ namespace DEMO2.Drivers
                 if (stxIndex > 0) _receiveBuffer.RemoveRange(0, stxIndex);
                 if (_receiveBuffer.Count < 9) return;
 
-                // ETX(0x03) 체크
                 if (_receiveBuffer[8] != 0x03) { _receiveBuffer.RemoveAt(0); continue; }
 
                 byte[] packet = _receiveBuffer.GetRange(0, 9).ToArray();
@@ -224,8 +225,6 @@ namespace DEMO2.Drivers
 
         private void ParsePacket(byte[] packet)
         {
-            // 수신 패킷 파싱 (매뉴얼 19페이지)
-            // packet[3]: 상태 (0x31=Down, 0x30=Up)
             bool isDown = (packet[3] == 0x31);
             byte keyCode = packet[4];
 
