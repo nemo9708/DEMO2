@@ -18,7 +18,22 @@ namespace DEMO2.Drivers
         public event EventHandler<KeypadEventArgs> KeypadEvent;
         private List<byte> _receiveBuffer = new List<byte>();
 
-        // 키 매핑 (기존과 동일)
+        // DTP7H 모델용 LED 주소 정의 (매뉴얼 11페이지 3.3.2 참조)
+        public const byte LED_LEFT_1 = 0xC1;
+        public const byte LED_LEFT_2 = 0xC4;
+        public const byte LED_LEFT_3 = 0xC7;
+
+        public const byte LED_RIGHT_1 = 0xCA;
+        public const byte LED_RIGHT_2 = 0xCD;
+        public const byte LED_RIGHT_3 = 0xD0;
+
+        // LED 색상 정의
+        public const byte LED_COLOR_OFF = 0x30;
+        public const byte LED_COLOR_BLUE = 0x31;
+        public const byte LED_COLOR_RED = 0x32;
+        public const byte LED_COLOR_ALL = 0x33;
+
+        // 키 매핑 (매뉴얼 19페이지 참조)
         private readonly Dictionary<byte, Key> _keyMap = new Dictionary<byte, Key>
         {
             { 0x1E, Key.A }, { 0x30, Key.B },
@@ -36,7 +51,7 @@ namespace DEMO2.Drivers
             _serialPort = new SerialPort();
         }
 
-        // [수정] BaudRate를 인자로 받음
+        // 시리얼 연결
         public bool Connect(string portName, int baudRate)
         {
             try
@@ -44,10 +59,14 @@ namespace DEMO2.Drivers
                 if (_serialPort.IsOpen) _serialPort.Close();
 
                 _serialPort.PortName = portName;
-                _serialPort.BaudRate = baudRate; // 받아온 값으로 설정
+                _serialPort.BaudRate = baudRate;
                 _serialPort.DataBits = 8;
                 _serialPort.StopBits = StopBits.One;
                 _serialPort.Parity = Parity.None;
+
+                // [핵심 수정] 장비가 PC의 존재를 인식하도록 신호를 켭니다.
+                _serialPort.DtrEnable = true;
+                _serialPort.RtsEnable = true;
 
                 _serialPort.DataReceived += SerialPort_DataReceived;
                 _serialPort.Open();
@@ -74,23 +93,26 @@ namespace DEMO2.Drivers
             catch { }
         }
 
+        // 부저 제어 (매뉴얼 18페이지 5.2 참조)
         // isOn: true(켜기), false(끄기)
         public void SetBuzzer(bool isOn)
         {
             // STX(02) MOD(11) SEL(3B) DATA1(31=On, 30=Off) DATA2(20) DATA3(20) CRC_H CRC_L ETX(03)
             byte state = isOn ? (byte)0x31 : (byte)0x30;
+            // SEL: 0x3B (Buzzer)
             SendPacket(0x11, 0x3B, state, 0x20, 0x20);
         }
 
-        // --- LED 제어 ---
-        // ledId: 0x41(L1), 0x42(L2), 0x43(L3), 0x61(R1), 0x62(R2), 0x63(R3)
-        // color: 0x30(Off), 0x31(Blue), 0x32(Red), 0x33(Purple/All)
+        // LED 제어 (매뉴얼 16페이지 5.1 참조)
+        // ledId: 상단의 LED_LEFT_1 등의 상수 사용
+        // color: 상단의 LED_COLOR_BLUE 등의 상수 사용
         public void SetLed(byte ledId, byte color)
         {
+            // SEL: 0x3A (LED)
             SendPacket(0x11, 0x3A, ledId, color, 0x20);
         }
 
-        // --- 패킷 전송 및 CRC 계산 ---
+        // 패킷 전송 및 CRC 계산 수정됨
         private void SendPacket(byte mod, byte sel, byte d1, byte d2, byte d3)
         {
             if (!IsConnected) return;
@@ -103,26 +125,22 @@ namespace DEMO2.Drivers
             packet[4] = d2;
             packet[5] = d3;
 
-            // CRC 계산 범위 변경
-            // 기존: CalculateCrc(packet, 6); -> STX 포함 (잘못됨 가능성 높음)
-            // 변경: STX를 제외하고 MOD(idx 1)부터 DATA3(idx 5)까지 5바이트만 계산
+            // [중요] CRC 계산: STX(idx 0)부터 DATA3(idx 5)까지 총 6바이트
+            ushort crc = CalculateCrc(packet, 6);
 
-            // 임시 버퍼를 만들어 계산하거나, CalculateCrc 메서드를 수정하여 offset 기능을 추가해야 합니다.
-            // 여기서는 이해를 돕기 위해 임시 배열을 사용합니다.
-            byte[] payload = new byte[] { mod, sel, d1, d2, d3 };
-            ushort crc = CalculateCrc(payload, 5);
-
-            // Big Endian (High Byte 먼저) 적용
-            // 매뉴얼 명세: ... CRC_H CRC_L ...
-            packet[6] = (byte)(crc >> 8);   // CRC_H
+            packet[6] = (byte)(crc >> 8);   // CRC_H (Big Endian)
             packet[7] = (byte)(crc & 0xFF); // CRC_L
-
             packet[8] = 0x03; // ETX
 
-            try { _serialPort.Write(packet, 0, packet.Length); } catch { }
+            try
+            {
+                _serialPort.Write(packet, 0, packet.Length);
+                // 디버깅용: Console.WriteLine($"TX: {BitConverter.ToString(packet)}"); 
+            }
+            catch { }
         }
 
-        // CRC16 Modbus Lookup Table
+        // CRC16 Modbus Lookup Table (매뉴얼과 호환되는 표준 테이블)
         private static readonly ushort[] CrcTable = {
             0X0000, 0XC0C1, 0XC181, 0X0140, 0XC301, 0X03C0, 0X0280, 0XC241,
             0XC601, 0X06C0, 0X0780, 0XC741, 0X0500, 0XC5C1, 0XC481, 0X0440,
@@ -164,6 +182,7 @@ namespace DEMO2.Drivers
         private ushort CalculateCrc(byte[] data, int length)
         {
             ushort crc = 0xFFFF;
+
             for (int i = 0; i < length; i++)
             {
                 byte index = (byte)(crc ^ data[i]);
@@ -194,6 +213,7 @@ namespace DEMO2.Drivers
                 if (stxIndex > 0) _receiveBuffer.RemoveRange(0, stxIndex);
                 if (_receiveBuffer.Count < 9) return;
 
+                // ETX(0x03) 체크
                 if (_receiveBuffer[8] != 0x03) { _receiveBuffer.RemoveAt(0); continue; }
 
                 byte[] packet = _receiveBuffer.GetRange(0, 9).ToArray();
@@ -204,6 +224,8 @@ namespace DEMO2.Drivers
 
         private void ParsePacket(byte[] packet)
         {
+            // 수신 패킷 파싱 (매뉴얼 19페이지)
+            // packet[3]: 상태 (0x31=Down, 0x30=Up)
             bool isDown = (packet[3] == 0x31);
             byte keyCode = packet[4];
 
