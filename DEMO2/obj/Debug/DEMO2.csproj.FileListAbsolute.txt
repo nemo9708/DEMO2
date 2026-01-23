@@ -54,9 +54,9 @@ C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\VacuumSetView.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\RetrySet.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\Setting\VacuumSetView.g.cs
-C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\TEST2.baml
-C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\TEST2.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Driver\DTP7HConnection.baml
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Driver\DTP7HConnection.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\DEMO2_MarkupCompile.lref
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\TEST\DriverTestView.baml
+C:\Users\jun_jihan\Desktop\작업용 폴더\DEMO2\DEMO2\obj\Debug\Manual\StationTeaching\TEST\DriverTestView.g.cs
