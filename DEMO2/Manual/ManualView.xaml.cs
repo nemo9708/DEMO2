@@ -112,6 +112,26 @@ namespace DEMO2.Manual
             SwitchTab("Test");
         }
 
+        private void TabTest2_Click(object sender, RoutedEventArgs e)
+        {
+            // 탭 전환 로직 (예: ContentControl의 내용을 Test2View로 변경)
+            // 기존에 구현된 OpenTest2View()가 있다면 호출하거나 직접 작성
+            OpenTest2View();
+        }
+
+        // 2. TEST2 탭 닫기(x) 버튼 클릭 이벤트
+        private void BtnCloseTest2Tab_Click(object sender, RoutedEventArgs e)
+        {
+            // 탭을 숨기고 메인 탭으로 이동하는 로직
+            tabTest2.Visibility = Visibility.Collapsed;
+
+            // 만약 Test2가 닫혔을 때 기본 화면(예: ManualMenuView)으로 돌아가야 한다면:
+            // ManualContent.Content = new ManualMenuView();
+
+            // 이벤트 전파 방지 (부모 버튼인 TabTest2_Click이 실행되지 않도록 함)
+            e.Handled = true;
+        }
+
         public void OpenSettingView()
         {
             tabSetting.Visibility = Visibility.Visible;
