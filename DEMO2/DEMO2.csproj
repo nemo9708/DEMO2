@@ -67,6 +67,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\DeviceManager.cs" />
+    <Compile Include="Core\MotionController.cs" />
     <Compile Include="Driver\DTP7HConnection.xaml.cs">
       <DependentUpon>DTP7HConnection.xaml</DependentUpon>
     </Compile>
