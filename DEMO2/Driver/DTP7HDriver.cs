@@ -2,39 +2,51 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
-using System.Threading; // 필수: Thread.Sleep 사용
+using System.Threading;
 using System.Windows.Input;
 
 namespace DEMO2.Drivers
 {
+    // 버튼 이벤트 데이터를 전달하기 위한 클래스
     public class KeypadEventArgs : EventArgs
     {
         public Key Key { get; set; }
         public bool IsDown { get; set; }
     }
 
-    public class DTP7HDriver
+    // 인터페이스 정의: 드라이버와 매니저 사이의 결합도를 낮추는 핵심 약속
+    public interface ITeachPendant
+    {
+        event EventHandler<KeypadEventArgs> KeypadEvent;
+        bool IsConnected { get; }
+        bool Connect(string portName, int baudRate);
+        void Disconnect();
+        void SetLed(byte ledId, byte color);
+        void SetBuzzer(bool isOn);
+    }
+
+    // 인터페이스를 상속받아 구현한 실제 드라이버 클래스
+    public class DTP7HDriver : ITeachPendant
     {
         private SerialPort _serialPort;
         public event EventHandler<KeypadEventArgs> KeypadEvent;
         private List<byte> _receiveBuffer = new List<byte>();
 
-        // [LED 주소] 매뉴얼 규격 일치 (Left: 순차, Right: 역순)
-        public const byte LED_LEFT_1 = 0x411;
+        // [LED 주소 상수] 
+        public const byte LED_LEFT_1 = 0x41;
         public const byte LED_LEFT_2 = 0x42;
         public const byte LED_LEFT_3 = 0x43;
-
         public const byte LED_RIGHT_1 = 0x63;
         public const byte LED_RIGHT_2 = 0x62;
         public const byte LED_RIGHT_3 = 0x61;
 
-        // [LED 색상]
+        // [LED 색상 상수]
         public const byte LED_COLOR_OFF = 0x30;
         public const byte LED_COLOR_BLUE = 0x31;
         public const byte LED_COLOR_RED = 0x32;
         public const byte LED_COLOR_ALL = 0x33;
 
-        // [키 매핑]
+        // [키 매핑] 매뉴얼 스캔코드 기준
         private readonly Dictionary<byte, Key> _keyMap = new Dictionary<byte, Key>
         {
             { 0x1E, Key.A }, { 0x30, Key.B },
@@ -59,12 +71,12 @@ namespace DEMO2.Drivers
                 if (_serialPort.IsOpen) _serialPort.Close();
 
                 _serialPort.PortName = portName;
-                _serialPort.BaudRate = 115200; // 규격: 115200 고정
+                _serialPort.BaudRate = 115200; // 장치 규격 고정
                 _serialPort.DataBits = 8;
                 _serialPort.StopBits = StopBits.One;
                 _serialPort.Parity = Parity.None;
 
-                // 통신 신호 활성화 (안전장치)
+                // 통신 신호 활성화
                 _serialPort.DtrEnable = true;
                 _serialPort.RtsEnable = true;
 
@@ -75,7 +87,7 @@ namespace DEMO2.Drivers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Connect Error: {ex.Message}");
                 return false;
             }
         }
@@ -84,7 +96,7 @@ namespace DEMO2.Drivers
         {
             try
             {
-                if (_serialPort.IsOpen)
+                if (_serialPort != null && _serialPort.IsOpen)
                 {
                     _serialPort.DataReceived -= SerialPort_DataReceived;
                     _serialPort.Close();
@@ -93,20 +105,16 @@ namespace DEMO2.Drivers
             catch { }
         }
 
-        // [수정 1] 부저 제어 패킷 구조 수정 (피드백 반영)
         public void SetBuzzer(bool isOn)
         {
             byte state = isOn ? (byte)0x31 : (byte)0x30;
-
-            // 기존 오류: SendPacket(0x11, 0x3B, 0x64, state, 0x20); -> d1에 0x64가 들어감 (X)
-            // 수정 완료: SendPacket(0x11, 0x3B, state, 0x20, 0x20); -> d1에 state가 들어감 (O)
+            // 부저 제어 패킷 구조 적용 (MOD: 0x11, SEL: 0x3B)
             SendPacket(0x11, 0x3B, state, 0x20, 0x20);
         }
 
-        // LED 제어
         public void SetLed(byte ledId, byte color)
         {
-            // SEL: 0x3A (LED)
+            // LED 제어 패킷 구조 적용 (SEL: 0x3A)
             SendPacket(0x11, 0x3A, ledId, color, 0x20);
         }
 
@@ -122,44 +130,35 @@ namespace DEMO2.Drivers
             packet[4] = d2;
             packet[5] = d3;
 
-            // CRC 계산 (Bitwise 방식)
             ushort crc = CalculateCrc(packet, 6);
 
-            // [수정 2] CRC 바이트 순서: Big Endian (High Byte First) - 피드백 반영
-            // 매뉴얼 예제와 일치시킴
-            packet[6] = (byte)(crc >> 8);   // High Byte
-            packet[7] = (byte)(crc & 0xFF); // Low Byte
+            // CRC 바이트 순서: Big Endian (High Byte First)
+            packet[6] = (byte)(crc >> 8);
+            packet[7] = (byte)(crc & 0xFF);
 
             packet[8] = 0x03; // ETX
 
             try
             {
                 _serialPort.Write(packet, 0, packet.Length);
-
-                // [필수] 장치 처리 시간 보장 (1ms 이상)
+                // 장치 처리 응답 시간 보류
                 Thread.Sleep(10);
             }
             catch { }
         }
 
-        // CRC16 알고리즘 (Bitwise 방식 - crc16_append 호환)
         private ushort CalculateCrc(byte[] data, int length)
         {
             ushort crc = 0xFFFF;
-
             for (int i = 0; i < length; i++)
             {
                 crc ^= data[i];
                 for (int j = 0; j < 8; j++)
                 {
                     if ((crc & 0x0001) != 0)
-                    {
                         crc = (ushort)((crc >> 1) ^ 0xA001);
-                    }
                     else
-                    {
                         crc >>= 1;
-                    }
                 }
             }
             return crc;
@@ -169,6 +168,8 @@ namespace DEMO2.Drivers
         {
             try
             {
+                if (_serialPort == null || !_serialPort.IsOpen) return;
+
                 int bytesToRead = _serialPort.BytesToRead;
                 byte[] buffer = new byte[bytesToRead];
                 _serialPort.Read(buffer, 0, bytesToRead);
@@ -187,7 +188,11 @@ namespace DEMO2.Drivers
                 if (stxIndex > 0) _receiveBuffer.RemoveRange(0, stxIndex);
                 if (_receiveBuffer.Count < 9) return;
 
-                if (_receiveBuffer[8] != 0x03) { _receiveBuffer.RemoveAt(0); continue; }
+                if (_receiveBuffer[8] != 0x03)
+                {
+                    _receiveBuffer.RemoveAt(0);
+                    continue;
+                }
 
                 byte[] packet = _receiveBuffer.GetRange(0, 9).ToArray();
                 _receiveBuffer.RemoveRange(0, 9);
@@ -197,6 +202,7 @@ namespace DEMO2.Drivers
 
         private void ParsePacket(byte[] packet)
         {
+            // 수신 데이터 상태 체크 (0x31: Down, 0x30: Up)
             bool isDown = (packet[3] == 0x31);
             byte keyCode = packet[4];
 
