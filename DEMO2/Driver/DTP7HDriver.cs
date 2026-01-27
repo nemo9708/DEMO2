@@ -20,7 +20,7 @@ namespace DEMO2.Drivers
         private List<byte> _receiveBuffer = new List<byte>();
 
         // [LED 주소] 매뉴얼 규격 일치 (Left: 순차, Right: 역순)
-        public const byte LED_LEFT_1 = 0x41;
+        public const byte LED_LEFT_1 = 0x411;
         public const byte LED_LEFT_2 = 0x42;
         public const byte LED_LEFT_3 = 0x43;
 
