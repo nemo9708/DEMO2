@@ -4,32 +4,21 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
+using DEMO2.Driver; // [중요] ITeachPendant와 KeypadEventArgs가 있는 네임스페이스 참조
 
 namespace DEMO2.Drivers
 {
-    // 버튼 이벤트 데이터를 전달하기 위한 클래스
-    public class KeypadEventArgs : EventArgs
-    {
-        public Key Key { get; set; }
-        public bool IsDown { get; set; }
-    }
-
-    // 인터페이스 정의: 드라이버와 매니저 사이의 결합도를 낮추는 핵심 약속
-    public interface ITeachPendant
-    {
-        event EventHandler<KeypadEventArgs> KeypadEvent;
-        bool IsConnected { get; }
-        bool Connect(string portName, int baudRate);
-        void Disconnect();
-        void SetLed(byte ledId, byte color);
-        void SetBuzzer(bool isOn);
-    }
+    // [삭제됨] KeypadEventArgs 클래스 중복 정의 제거 (DEMO2.Driver에 있는 것 사용)
+    // [삭제됨] ITeachPendant 인터페이스 중복 정의 제거 (DEMO2.Driver에 있는 것 사용)
 
     // 인터페이스를 상속받아 구현한 실제 드라이버 클래스
     public class DTP7HDriver : ITeachPendant
     {
         private SerialPort _serialPort;
+
+        // ITeachPendant 인터페이스의 멤버 구현
         public event EventHandler<KeypadEventArgs> KeypadEvent;
+
         private List<byte> _receiveBuffer = new List<byte>();
 
         // [LED 주소 상수] 
@@ -57,6 +46,7 @@ namespace DEMO2.Drivers
             { 0x25, Key.K }, { 0x26, Key.L }
         };
 
+        // C# 6.0 문법 (Expression-bodied member) - 호환 가능
         public bool IsConnected => _serialPort != null && _serialPort.IsOpen;
 
         public DTP7HDriver()
@@ -71,7 +61,7 @@ namespace DEMO2.Drivers
                 if (_serialPort.IsOpen) _serialPort.Close();
 
                 _serialPort.PortName = portName;
-                _serialPort.BaudRate = 115200; // 장치 규격 고정
+                _serialPort.BaudRate = baudRate; // 전달받은 보레이트 적용
                 _serialPort.DataBits = 8;
                 _serialPort.StopBits = StopBits.One;
                 _serialPort.Parity = Parity.None;
@@ -141,7 +131,6 @@ namespace DEMO2.Drivers
             try
             {
                 _serialPort.Write(packet, 0, packet.Length);
-                // 장치 처리 응답 시간 보류
                 Thread.Sleep(10);
             }
             catch { }
@@ -208,6 +197,7 @@ namespace DEMO2.Drivers
 
             if (_keyMap.ContainsKey(keyCode))
             {
+                // C# 6.0 문법 (Null-conditional operator) - 호환 가능
                 KeypadEvent?.Invoke(this, new KeypadEventArgs
                 {
                     Key = _keyMap[keyCode],

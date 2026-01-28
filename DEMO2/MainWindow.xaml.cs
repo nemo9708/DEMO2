@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
-using System.Runtime.InteropServices; // 윈도우 API 사용을 위해 필수!
+using System.Runtime.InteropServices; // 윈도우 API 사용을 위해 필수
 using System.Threading.Tasks;         // 버저 딜레이(Delay)를 위해 필요
 using DEMO2.Manual;   // ManualView 사용
-using DEMO2.Drivers;  // DTP7HDriver 사용
+using DEMO2.Driver;  // DTP7HDriver 사용
 
 namespace DEMO2
 {
@@ -19,7 +19,6 @@ namespace DEMO2
         const byte VK_LED1_BLUE = 0xCA; // 파란불 (Right LED1)
         const byte VK_BUZZER = 0xD3; // 버저
         const int KEYEVENTF_KEYUP = 0x02; // 키 떼는 동작
-        // =========================================================
 
         public MainWindow()
         {
@@ -39,8 +38,12 @@ namespace DEMO2
             btnLock.Click += BtnLock_Click;
             btnCloseApp.Click += BtnCloseApp_Click;
 
-            // 초기 화면 설정
-            MainContentArea.Content = new ManualView();
+            // [수정됨] 초기 화면 설정 시 드라이버 전달
+            // ManualView 생성자에 MyDriverControl.Driver를 인수로 전달합니다.
+            if (MyDriverControl != null)
+            {
+                MainContentArea.Content = new ManualView(MyDriverControl.Driver);
+            }
         }
 
         // ▼ 드라이버 키패드 이벤트 핸들러
@@ -64,7 +67,7 @@ namespace DEMO2
         }
 
         // =========================================================
-        // ▼ LED/버저 제어 함수 (필요할 때 호출해서 쓰세요)
+        // ▼ LED/버저 제어 함수 (필요할 때 호출해서 쓰기)
         // =========================================================
 
         // LED 켜기 함수
@@ -91,7 +94,11 @@ namespace DEMO2
         // ▼ 화면 전환 및 버튼 핸들러들
         private void BtnManual_Click(object sender, RoutedEventArgs e)
         {
-            MainContentArea.Content = new ManualView();
+            // [수정됨] 버튼 클릭 시에도 드라이버 전달
+            if (MyDriverControl != null)
+            {
+                MainContentArea.Content = new ManualView(MyDriverControl.Driver);
+            }
         }
 
         private void BtnDriverTest_Click(object sender, RoutedEventArgs e)
