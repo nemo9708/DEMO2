@@ -16,7 +16,7 @@ namespace DEMO2.Driver
         event EventHandler<KeypadEventArgs> KeypadEvent;
 
         bool Connect(string portName, int baudRate);
-        void Disconnect(); // 연결 해제도 인터페이스에 있는 것이 좋음니다.
+        void Disconnect(); // 연결 해제도 인터페이스에 있는 것이 좋음.
         void SetLed(byte ledId, byte color);
         void SetBuzzer(bool isOn);
         bool IsConnected { get; }
