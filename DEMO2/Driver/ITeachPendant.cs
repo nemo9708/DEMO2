@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Input;
 
 namespace DEMO2.Driver
@@ -12,11 +12,11 @@ namespace DEMO2.Driver
 
     public interface ITeachPendant
     {
-        // 이벤트 정의: 이제 매니저는 이 인터페이스만 보고 버튼 신호를 기다릴 수 있습니다.
+        // 이벤트 정의: 이 인터페이스만 보고 버튼 신호를 기다릴 수 있음.
         event EventHandler<KeypadEventArgs> KeypadEvent;
 
         bool Connect(string portName, int baudRate);
-        void Disconnect(); // 연결 해제도 인터페이스에 있는 것이 좋습니다.
+        void Disconnect(); // 연결 해제도 인터페이스에 있는 것이 좋음니다.
         void SetLed(byte ledId, byte color);
         void SetBuzzer(bool isOn);
         bool IsConnected { get; }
