@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              Background="White">
@@ -44,6 +44,10 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Background" Value="{StaticResource GreenBrush}"/>
                             </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#A9A9A9"/>
+                                <Setter Property="Foreground" Value="DimGray"/>
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -71,9 +75,10 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="0,0,5,0">
-            <Button Content="Setting" Style="{StaticResource NormalButtonStyle}" Height="40"/>
-            <Button Content="Slot Set" Style="{StaticResource NormalButtonStyle}" Height="40"/>
-            <Button Content="TEST" Style="{StaticResource NormalButtonStyle}" Height="40"/>
+            <Button x:Name="btnSetting" Content="Setting" Style="{StaticResource NormalButtonStyle}" Height="40" Click="BtnSetting_Click"/>
+            <Button x:Name="btnSlotSet" Content="Slot Set" Style="{StaticResource NormalButtonStyle}" Height="40"
+                    Click="BtnSlotSet_Click"/>
+            <Button Content="TEST" Style="{StaticResource NormalButtonStyle}" Height="40" Click="BtnTest_Click"/>
             <Grid Height="250"/>
             <Button Content="Reset" Style="{StaticResource NormalButtonStyle}" Height="40"/>
             <Button Content="Save" Style="{StaticResource NormalButtonStyle}" Height="40"/>
@@ -94,7 +99,8 @@
                     <TextBlock Text="Cassette No. :" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="20,0,10,0"/>
                     <ComboBox x:Name="cmbCassette" Style="{StaticResource DropdownStyle}"/>
                     <TextBlock Text="Arm :" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="40,0,10,0"/>
-                    <StackPanel Orientation="Horizontal">
+
+                    <StackPanel x:Name="stackArm" Orientation="Horizontal">
                         <RadioButton Content="A" GroupName="ArmGroup" Style="{StaticResource ToggleButtonStyle}" Width="50" Height="30" IsChecked="True"/>
                         <RadioButton Content="B" GroupName="ArmGroup" Style="{StaticResource ToggleButtonStyle}" Width="50" Height="30"/>
                     </StackPanel>
@@ -105,13 +111,13 @@
                     BorderBrush="Black" BorderThickness="2" FontSize="16" 
                     HorizontalContentAlignment="Left" Padding="10,0,0,0" Margin="0,0,0,5"/>
 
-            <Border Grid.Row="2" Background="{StaticResource GrayBrush}" BorderBrush="Black" BorderThickness="2" Margin="0,0,0,5">
+            <Border x:Name="borderGraph" Grid.Row="2" Background="{StaticResource GrayBrush}" BorderBrush="Black" BorderThickness="2" Margin="0,0,0,5">
                 <Grid>
                     <ContentControl x:Name="PointsContentArea" />
                 </Grid>
             </Border>
 
-            <Border Grid.Row="3" BorderBrush="Black" BorderThickness="2">
+            <Border x:Name="borderBottomControl" Grid.Row="3" BorderBrush="Black" BorderThickness="2">
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -126,7 +132,6 @@
                         <RadioButton Content="Drive" GroupName="ModeGroup" Style="{StaticResource ToggleButtonStyle}" Height="40" IsChecked="True"/>
                         <RadioButton Content="Num.Value" GroupName="ModeGroup" Style="{StaticResource ToggleButtonStyle}" Height="40"/>
                     </StackPanel>
-
                     <StackPanel Grid.Column="2" VerticalAlignment="Center">
                         <RadioButton Content="1 Point" GroupName="PointGroup" Style="{StaticResource ToggleButtonStyle}" Height="28" IsChecked="True"
                                      Checked="On1PointChecked"/>
@@ -139,36 +144,49 @@
             </Border>
         </Grid>
 
-        <Grid Grid.Column="2" Margin="5,0,0,0">
+        <Grid x:Name="gridRightInfo" Grid.Column="2" Margin="5,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Background="{StaticResource GrayBrush}" BorderBrush="Black" BorderThickness="2" Margin="0,0,0,5">
-                <StackPanel Margin="10">
-                    <TextBlock Text="Position :" FontWeight="Bold" Margin="0,0,0,5"/>
-                    <TextBlock Text="Axis" Margin="0,0,0,5"/>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="A  :" VerticalAlignment="Center"/>
-                        <TextBox Text="123456.123" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="θ  :" VerticalAlignment="Center"/>
-                        <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="Z  :" VerticalAlignment="Center"/>
-                        <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="Y  :" VerticalAlignment="Center"/>
-                        <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                    <Grid Margin="0,5">
-                        <TextBlock Text="Φ  :" VerticalAlignment="Center"/>
-                        <TextBox Text="000000.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
-                    </Grid>
-                </StackPanel>
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Axis Save" Style="{StaticResource NormalButtonStyle}" Width="100" Height="40" Margin="0,510,91.2,-45.4" Grid.ColumnSpan="2"/>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Position :" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBlock Text="Axis" Margin="0,0,0,5"/>
+
+                        <Grid Margin="0,5">
+                            <TextBlock Text="A  :" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisA" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,5">
+                            <TextBlock Text="θ  :" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisTheta" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,5">
+                            <TextBlock Text="Z  :" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisZ" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,5">
+                            <TextBlock Text="Y  :" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisY" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,5">
+                            <TextBlock Text="Φ  :" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TxtAxisPhi" Text="0.000" HorizontalAlignment="Right" Width="100" Background="#ADD8E6" TextAlignment="Center"/>
+                        </Grid>
+
+                    </StackPanel>
+                </Grid>
             </Border>
             <Border Grid.Row="1" Background="{StaticResource GrayBrush}" BorderBrush="Black" BorderThickness="2">
                 <StackPanel VerticalAlignment="Center" Margin="10">

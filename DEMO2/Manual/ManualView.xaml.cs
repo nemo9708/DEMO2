@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using DEMO2.Manual.StationTeaching; // 경로 필수
+using DEMO2.Manual.StationTeaching;
+using DEMO2.Manual.StationTeaching.TEST;
+using DEMO2.Manual.Setting;
+using DEMO2.Driver; // 인터페이스 네임스페이스 추가
 
 namespace DEMO2.Manual
 {
@@ -13,79 +17,163 @@ namespace DEMO2.Manual
 
         private ManualMenuView _menuView;
         private StationTeachingView _stationView;
+        private SettingView _settingView;
+        private TestView _testView;
 
-        public ManualView()
+        // 부모로부터 받은 드라이버 참조 보관
+        private ITeachPendant _driver;
+
+        // 1. 생성자에서 ITeachPendant를 주입받도록 수정
+        public ManualView(ITeachPendant driver)
         {
             InitializeComponent();
+            _driver = driver;
 
+            // 뷰 초기화
             _menuView = new ManualMenuView();
-            _menuView.StationTeachingClicked += OnStationTeachingClicked;
-
             _stationView = new StationTeachingView();
+            _settingView = new SettingView();
+            _testView = new TestView();
+
+            // 2. StationTeachingView에 드라이버 주입 및 이벤트 연결
+            _stationView.SetDriver(_driver);
+            _stationView.ViewChangeRequested += OnViewChangeRequested;
+
+            // 메뉴 이벤트 연결
+            _menuView.StationTeachingClicked += OnStationTeachingClicked;
+            _menuView.SettingClicked += OnSettingClicked;
+            _menuView.Test2Clicked += OnTest2Clicked;
 
             SwitchTab("Manual");
         }
 
+        // 3. 자식 뷰(StationTeachingView)의 화면 전환 요청 처리
+        private void OnViewChangeRequested(string targetView)
+        {
+            if (targetView == "Test")
+            {
+                OpenTestView();
+            }
+            else if (targetView == "Setting")
+            {
+                OpenSettingView();
+            }
+        }
+
         // 메뉴에서 Station Teaching 버튼 클릭 시
-        private void OnStationTeachingClicked(object sender, System.EventArgs e)
+        private void OnStationTeachingClicked(object sender, EventArgs e)
         {
             tabStation.Visibility = Visibility.Visible;
             SwitchTab("Station");
         }
 
-        // 탭 헤더 클릭
-        private void TabManual_Click(object sender, RoutedEventArgs e)
+        private void OnSettingClicked(object sender, EventArgs e)
         {
-            SwitchTab("Manual");
+            OpenSettingView();
         }
 
-        private void TabStation_Click(object sender, RoutedEventArgs e)
+        private void OnTest2Clicked(object sender, EventArgs e)
         {
-            SwitchTab("Station");
+            OpenTest2View();
         }
 
-        // [추가됨] X 버튼 클릭 (탭 닫기)
+        // 탭 헤더 클릭 이벤트들
+        private void TabManual_Click(object sender, RoutedEventArgs e) => SwitchTab("Manual");
+        private void TabStation_Click(object sender, RoutedEventArgs e) => SwitchTab("Station");
+        private void TabSetting_Click(object sender, RoutedEventArgs e) => SwitchTab("Setting");
+        private void TabTest_Click(object sender, RoutedEventArgs e) => SwitchTab("Test");
+
+        // X 버튼 클릭 (탭 닫기)
         private void BtnCloseTab_Click(object sender, RoutedEventArgs e)
         {
-            // 부모 버튼(tabStation)의 클릭 이벤트가 발생하지 않도록 방지
             e.Handled = true;
-
-            // 1. 탭 숨기기
             tabStation.Visibility = Visibility.Collapsed;
-
-            // 2. Manual 화면으로 복귀
             SwitchTab("Manual");
         }
 
+        private void BtnCloseSettingTab_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            tabSetting.Visibility = Visibility.Collapsed;
+            SwitchTab("Manual");
+        }
+
+        private void BtnCloseTestTab_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            tabTest.Visibility = Visibility.Collapsed;
+            SwitchTab("Manual");
+        }
+
+        // 외부/자식 요청으로 호출되는 화면 오픈 메서드들
+        public void OpenTestView()
+        {
+            tabTest.Visibility = Visibility.Visible;
+            SwitchTab("Test");
+        }
+
+        private void TabTest2_Click(object sender, RoutedEventArgs e)
+        {
+            // 탭 전환 로직 (예: ContentControl의 내용을 Test2View로 변경)
+            // 기존에 구현된 OpenTest2View()가 있다면 호출하거나 직접 작성
+            OpenTest2View();
+        }
+
+        // 2. TEST2 탭 닫기(x) 버튼 클릭 이벤트
+        private void BtnCloseTest2Tab_Click(object sender, RoutedEventArgs e)
+        {
+            // 탭을 숨기고 메인 탭으로 이동하는 로직
+            tabTest2.Visibility = Visibility.Collapsed;
+
+            // 만약 Test2가 닫혔을 때 기본 화면(예: ManualMenuView)으로 돌아가야 한다면:
+            // ManualContent.Content = new ManualMenuView();
+
+            // 이벤트 전파 방지 (부모 버튼인 TabTest2_Click이 실행되지 않도록 함)
+            e.Handled = true;
+        }
+
+        public void OpenSettingView()
+        {
+            tabSetting.Visibility = Visibility.Visible;
+            SwitchTab("Setting");
+        }
+
+        public void OpenTest2View()
+        {
+            tabTest2.Visibility = Visibility.Visible;
+            SwitchTab("Test2");
+        }
+
+        // 탭 전환 및 스타일 적용 로직
         private void SwitchTab(string tabName)
         {
+            // 스타일 초기화
+            tabManual.Background = tabStation.Background = tabSetting.Background = tabTest.Background = InactiveColor;
+            tabManual.FontWeight = tabStation.FontWeight = tabSetting.FontWeight = tabTest.FontWeight = FontWeights.Normal;
+
             if (tabName == "Manual")
             {
                 ManualContentArea.Content = _menuView;
-
-                // 스타일 업데이트
                 tabManual.Background = ActiveColor;
-                tabStation.Background = InactiveColor;
                 tabManual.FontWeight = FontWeights.Bold;
-                tabStation.FontWeight = FontWeights.Normal;
-
-                // 테두리 강조 (선택된 탭 느낌)
-                tabManual.BorderBrush = Brushes.Black;
-                tabStation.BorderBrush = Brushes.Gray;
             }
             else if (tabName == "Station")
             {
                 ManualContentArea.Content = _stationView;
-
-                // 스타일 업데이트
-                tabManual.Background = InactiveColor;
                 tabStation.Background = ActiveColor;
-                tabManual.FontWeight = FontWeights.Normal;
                 tabStation.FontWeight = FontWeights.Bold;
-
-                // 테두리 강조
-                tabManual.BorderBrush = Brushes.Gray;
-                tabStation.BorderBrush = Brushes.Black;
+            }
+            else if (tabName == "Setting")
+            {
+                ManualContentArea.Content = _settingView;
+                tabSetting.Background = ActiveColor;
+                tabSetting.FontWeight = FontWeights.Bold;
+            }
+            else if (tabName == "Test")
+            {
+                ManualContentArea.Content = _testView;
+                tabTest.Background = ActiveColor;
+                tabTest.FontWeight = FontWeights.Bold;
             }
         }
     }

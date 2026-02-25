@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="DEMO2.Manual.DriverTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="White">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Hardware Test (Buzzer &amp; LED)" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <GroupBox Header="Buzzer Test" Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Button Content="Buzzer ON" Width="100" Height="40" Margin="0,0,10,0" Click="BtnBuzzerOn_Click"/>
+                    <Button Content="Buzzer OFF" Width="100" Height="40" Click="BtnBuzzerOff_Click"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="LED Test">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- ================= LEFT : LED Buttons ================= -->
+                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+
+                        <TextBlock Text="Left LEDs (좌측)" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="5">
+                                <TextBlock Text="LED 1" HorizontalAlignment="Center"/>
+                                <Button Content="Blue" Background="LightBlue" Click="BtnLeftLed1Blue_Click" Margin="2"/>
+                                <Button Content="Red" Background="LightPink" Click="BtnLeftLed1Red_Click" Margin="2"/>
+                                <Button Content="OFF" Click="BtnLeftLed1Off_Click" Margin="2"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5">
+                                <TextBlock Text="LED 2" HorizontalAlignment="Center"/>
+                                <Button Content="Blue" Background="LightBlue" Click="BtnLeftLed2Blue_Click" Margin="2"/>
+                                <Button Content="Red" Background="LightPink" Click="BtnLeftLed2Red_Click" Margin="2"/>
+                                <Button Content="OFF" Click="BtnLeftLed2Off_Click" Margin="2"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="5">
+                                <TextBlock Text="LED 3" HorizontalAlignment="Center"/>
+                                <Button Content="Blue" Background="LightBlue" Click="BtnLeftLed3Blue_Click" Margin="2"/>
+                                <Button Content="Red" Background="LightPink" Click="BtnLeftLed3Red_Click" Margin="2"/>
+                                <Button Content="OFF" Click="BtnLeftLed3Off_Click" Margin="2"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="Right LEDs (우측)" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="5">
+                                <TextBlock Text="LED 1" HorizontalAlignment="Center"/>
+                                <Button Content="Blue" Background="LightBlue" Click="BtnRightLed1Blue_Click" Margin="2"/>
+                                <Button Content="Red" Background="LightPink" Click="BtnRightLed1Red_Click" Margin="2"/>
+                                <Button Content="OFF" Click="BtnRightLed1Off_Click" Margin="2"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5">
+                                <TextBlock Text="LED 2" HorizontalAlignment="Center"/>
+                                <Button Content="Blue" Background="LightBlue" Click="BtnRightLed2Blue_Click" Margin="2"/>
+                                <Button Content="Red" Background="LightPink" Click="BtnRightLed2Red_Click" Margin="2"/>
+                                <Button Content="OFF" Click="BtnRightLed2Off_Click" Margin="2"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="5">
+                                <TextBlock Text="LED 3" HorizontalAlignment="Center"/>
+                                <Button Content="Blue" Background="LightBlue" Click="BtnRightLed3Blue_Click" Margin="2"/>
+                                <Button Content="Red" Background="LightPink" Click="BtnRightLed3Red_Click" Margin="2"/>
+                                <Button Content="OFF" Click="BtnRightLed3Off_Click" Margin="2"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ================= RIGHT : LOG ================= -->
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Log" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="LogBox"
+                     IsReadOnly="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     Height="300"/>
+                    </StackPanel>
+
+                </Grid>
+            </GroupBox>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

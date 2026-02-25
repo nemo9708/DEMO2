@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Driver\DTP7HConnection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,15 +67,40 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Driver\DTP7HConnection.xaml.cs">
+      <DependentUpon>DTP7HConnection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Driver\DTP7HDriver.cs" />
+    <Compile Include="Driver\ITeachPendant.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Manual\ManialMenuView.xaml">
+    <Page Include="Manual\ManualMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Manual\ManualView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\Setting\OriginOffset.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\Setting\RetrySet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\Setting\SettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\Setting\SystemPoint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\Setting\VacuumSetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -83,6 +112,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Manual\StationTeaching\Points\SlotSetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Manual\StationTeaching\Points\ThreePointView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,13 +124,36 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Manual\StationTeaching\TEST\DriverTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\StationTeaching\TEST\TestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Manual\ManialMenuView.xaml.cs">
-      <DependentUpon>ManialMenuView.xaml</DependentUpon>
+    <Compile Include="Manual\ManualMenuView.xaml.cs">
+      <DependentUpon>ManualMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manual\ManualView.xaml.cs">
       <DependentUpon>ManualView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\OriginOffset.xaml.cs">
+      <DependentUpon>OriginOffset.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\RetrySet.xaml.cs">
+      <DependentUpon>RetrySet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\SettingView.xaml.cs">
+      <DependentUpon>SettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\SystemPoint.xaml.cs">
+      <DependentUpon>SystemPoint.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\Setting\VacuumSetView.xaml.cs">
+      <DependentUpon>VacuumSetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manual\StationTeaching\Points\ManualPointView.xaml.cs">
       <DependentUpon>ManualPointView.xaml</DependentUpon>
@@ -105,11 +161,20 @@
     <Compile Include="Manual\StationTeaching\Points\OnePointView.xaml.cs">
       <DependentUpon>OnePointView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Manual\StationTeaching\Points\SlotSetView.xaml.cs">
+      <DependentUpon>SlotSetView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Manual\StationTeaching\Points\ThreePointView.xaml.cs">
       <DependentUpon>ThreePointView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manual\StationTeaching\StationTeachingView.xaml.cs">
       <DependentUpon>StationTeachingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\StationTeaching\TEST\DriverTestView.xaml.cs">
+      <DependentUpon>DriverTestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manual\StationTeaching\TEST\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
